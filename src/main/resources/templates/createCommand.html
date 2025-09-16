@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="java">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter(X)検索コマンド生成</title>
+</head>
+
+<body>
+    <div>Twitter(X)コマンド生成</div>
+    <form th:object="${form}">
+        <div>
+            <label class="userName">検索したいユーザー名</label>
+            <input type="text" th:field="*{userName}">
+        </div>
+        <div>
+            <label class="date">期間</label>
+            <input type="date" class="dateTo">～<input type="date" class="dateFrom">
+        </div>
+        <br>
+        <input type="button" value="コマンドを生成">
+    </form>
+    <div>
+        <div class="commandArea" th:text="${command}"></div>
+    </div>
+</body>
+
+</html>
