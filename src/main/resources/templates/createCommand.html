@@ -8,21 +8,41 @@
 </head>
 
 <body>
-    <div>Twitter(X)コマンド生成</div>
-    <form th:object="${form}">
+    <div>Twitter(X)検索コマンド生成</div>
+    <div>検索条件を入力してください</div>
+    <form th:action="@{/createTwitterCommand}" th:object="${form}" method="post">
         <div>
-            <label class="userName">検索したいユーザー名</label>
+            <label class="userName">ユーザー名</label>
             <input type="text" th:field="*{userName}">
         </div>
         <div>
             <label class="date">期間</label>
-            <input type="date" class="dateTo">～<input type="date" class="dateFrom">
+            <input type="date" class="dateSince" th:field="*{dateSince}">～<input type="date" class="dateUntil"
+                th:field="*{dateUntil}">
         </div>
-        <br>
-        <input type="button" value="コマンドを生成">
+        <div>
+            <label class="faves">いいね数</label>
+            <input type="number" class="minFaves" th:field="*{minFaves}">～<input type="number" class="maxFaves"
+                th:field="*{maxFaves}">
+        </div>
+        <div>
+            <input type="checkbox" class="followee" value="followee" th:id="followee" th:field="*{followee}">
+            <label for="followee">フォロイーの投稿に絞って表示</label>
+        </div>
+        <!-- <div>
+            <input type="checkbox" class="follower" value="follower" th:id="follower" th:field="*{follower}">
+            <label for="follower">フォロワーの投稿に絞って表示</label>
+        </div> -->
+        <input type="submit" name="generateCommand" value="コマンドを生成">
     </form>
     <div>
         <div class="commandArea" th:text="${command}"></div>
+    </div>
+
+    <br>
+    <div>
+        <div>説明</div>
+        <div>入力したユーザー名による投稿を検索できます。</div>
     </div>
 </body>
 
