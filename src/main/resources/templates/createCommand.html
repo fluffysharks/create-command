@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <title>Twitter(X)検索コマンド生成</title>
 </head>
 
@@ -11,6 +12,10 @@
     <div>Twitter(X)検索コマンド生成</div>
     <div>検索条件を入力してください</div>
     <form th:action="@{/createTwitterCommand}" th:object="${form}" method="post">
+        <div>
+            <label class="keyword">キーワード</label>
+            <input type="text" th:field="*{keyword}">
+        </div>
         <div>
             <label class="userName">ユーザー名</label>
             <input type="text" th:field="*{userName}">
@@ -26,6 +31,7 @@
                 th:field="*{maxFaves}">
         </div>
         <div>
+            <i class="fa-solid fa-user"></i>
             <input type="checkbox" class="followee" value="followee" th:id="followee" th:field="*{followee}">
             <label for="followee">フォロイーの投稿に絞って表示</label>
         </div>

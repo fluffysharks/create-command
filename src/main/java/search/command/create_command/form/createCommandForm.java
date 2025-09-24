@@ -1,6 +1,8 @@
 package search.command.create_command.form;
 
 public class createCommandForm {
+    /** キーワード */
+    private String keyword;
     /** ユーザー名 */
     private String userName;
     /** 期間（Since） */
@@ -15,6 +17,24 @@ public class createCommandForm {
     private String minFaves;
     /** いい数（Max） */
     private String maxFaves;
+
+    /**
+     * キーワードを取得
+     * 
+     * @return キーワード
+     */
+    public String getKeyword() {
+        return keyword;
+    }
+
+    /**
+     * キーワードを設定
+     * 
+     * @param keyword キーワード
+     */
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
 
     /**
      * ユーザー名を取得
@@ -64,7 +84,7 @@ public class createCommandForm {
     /**
      * 期間（Until）を設定
      * 
-     * @param dateSince 期間（Until）
+     * @param dateUntil 期間（Until）
      */
     public void setDateUntil(String dateUntil) {
         this.dateUntil = dateUntil;

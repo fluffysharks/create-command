@@ -46,14 +46,19 @@ public class CreateCommandController {
             command.append("max_faves:" + form.getMaxFaves() + " ");
         }
 
-        if (!StringUtils.isEmpty(form.getDateUntil())) {
-            // 「フォロイーの投稿に絞って表示」が入力されていればfilter:followsを追加
+        if (!StringUtils.isEmpty(form.getFollowee())) {
+            // 「フォロイーの投稿に絞って表示」が選択されていればfilter:followsを追加
             command.append("filter:follows ");
         }
         // if (!StringUtils.isEmpty(form.getDateUntil())) {
         // // 「フォロワーの投稿に絞って表示」が入力されていればを追加
         // command.append("filter:followers ");
         // }
+
+        if (!StringUtils.isEmpty(form.getKeyword())) {
+            // 「キーワード」が選択されていればキーワードを追加
+            command.append(form.getKeyword());
+        }
 
         model.addAttribute("command", command);
 
