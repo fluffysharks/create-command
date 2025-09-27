@@ -2,54 +2,68 @@
 <html lang="java">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
-    <title>Twitter(X)検索コマンド生成</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+	<title>Twitter(X)検索コマンド生成</title>
 </head>
 
 <body>
-    <div>Twitter(X)検索コマンド生成</div>
-    <div>検索条件を入力してください</div>
-    <form th:action="@{/createTwitterCommand}" th:object="${form}" method="post">
-        <div>
-            <label class="keyword">キーワード</label>
-            <input type="text" th:field="*{keyword}">
-        </div>
-        <div>
-            <label class="userName">ユーザー名</label>
-            <input type="text" th:field="*{userName}">
-        </div>
-        <div>
-            <label class="date">期間</label>
-            <input type="date" class="dateSince" th:field="*{dateSince}">～<input type="date" class="dateUntil"
-                th:field="*{dateUntil}">
-        </div>
-        <div>
-            <label class="faves">いいね数</label>
-            <input type="number" class="minFaves" th:field="*{minFaves}">～<input type="number" class="maxFaves"
-                th:field="*{maxFaves}">
-        </div>
-        <div>
-            <i class="fa-solid fa-user"></i>
-            <input type="checkbox" class="followee" value="followee" th:id="followee" th:field="*{followee}">
-            <label for="followee">フォロイーの投稿に絞って表示</label>
-        </div>
-        <!-- <div>
+	<style>
+		.pageTitle {
+			font-size: 40px;
+		}
+	</style>
+
+	<div>
+		<span class="pageTitle">Twitter(X)検索コマンド生成</span>
+	</div>
+
+
+	<form th:action="@{/createTwitterCommand}" th:object="${form}" method="post">
+		<div class="container">
+			<div>
+				<label class="keyword">キーワード</label>
+				<input type="text" th:classappend="${#fields.hasErrors('keyword')}? 'has-errors'" th:field="*{keyword}">
+				<div th:if="${#fields.hasErrors('keyword')}" th:errors="*{keyword}"></div>
+			</div>
+			<div>
+				<label class="userName">ユーザー名</label>
+				<input type="text" th:field="*{userName}">
+			</div>
+			<div>
+				<label class="date">期間</label>
+				<input type="date" class="dateSince" th:field="*{dateSince}">～<input type="date" class="dateUntil"
+					th:field="*{dateUntil}">
+			</div>
+			<div>
+				<label class="faves">いいね数</label>
+				<input type="number" class="minFaves" th:field="*{minFaves}">～<input type="number" class="maxFaves"
+					th:field="*{maxFaves}">
+			</div>
+			<div>
+				<i class="fa-solid fa-user"></i>
+				<input type="checkbox" class="followee" value="followee" th:id="followee" th:field="*{followee}">
+				<label for="followee">フォロイーの投稿に絞って表示</label>
+			</div>
+		</div>
+		<!-- <div>
             <input type="checkbox" class="follower" value="follower" th:id="follower" th:field="*{follower}">
             <label for="follower">フォロワーの投稿に絞って表示</label>
         </div> -->
-        <input type="submit" name="generateCommand" value="コマンドを生成">
-    </form>
-    <div>
-        <div class="commandArea" th:text="${command}"></div>
-    </div>
+		<input type="submit" name="generateCommand" value="コマンドを生成">
+	</form>
 
-    <br>
-    <div>
-        <div>説明</div>
-        <div>入力したユーザー名による投稿を検索できます。</div>
-    </div>
+	<div>
+		<div class="commandArea" th:text="${command}"></div>
+	</div>
+
+	<br>
+	<div>
+		<div>説明</div>
+		<div>入力したユーザー名による投稿を検索できます。</div>
+	</div>
 </body>
 
 </html>
