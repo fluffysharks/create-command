@@ -1,21 +1,32 @@
 package search.command.create_command.form;
 
-public class createCommandForm {
+import jakarta.validation.constraints.Size;
+
+public class CreateCommandForm {
     /** キーワード */
+    @Size(max = 30, message = "キーワードは30文字以内で入力してください")
     private String keyword;
+
     /** ユーザー名 */
+
     private String userName;
+
     /** 期間（Since） */
     private String dateSince;
+
     /** 期間（Until） */
     private String dateUntil;
+
     /** フォロイーの投稿を表示 */
     private String followee;
+
     /** フォロワーの投稿を表示 */
     private String follower;
+
     /** いいね数（Min） */
     private String minFaves;
-    /** いい数（Max） */
+
+    /** いいね数（Max） */
     private String maxFaves;
 
     /**
