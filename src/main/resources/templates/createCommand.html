@@ -11,8 +11,17 @@
 
 <body>
 	<style>
+		.form-group {
+			margin-top: 10px;
+			margin-bottom: 10px;
+		}
+
 		.pageTitle {
 			font-size: 40px;
+		}
+
+		.fa-exclamation {
+			color: #DC3545;
 		}
 	</style>
 
@@ -23,29 +32,34 @@
 
 	<form th:action="@{/createTwitterCommand}" th:object="${form}" method="post">
 		<div class="container">
-			<div>
+			<div class="form-group">
 				<label class="keyword">キーワード</label>
-				<input type="text" th:classappend="${#fields.hasErrors('keyword')}? 'has-errors'" th:field="*{keyword}">
-				<div th:if="${#fields.hasErrors('keyword')}" th:errors="*{keyword}"></div>
+				<input type="text" class="form-control" th:classappend="${#fields.hasErrors('keyword')}? 'is-invalid'"
+					th:field="*{keyword}">
+				<div th:if="${#fields.hasErrors('keyword')}" class="invalid-feedback">
+					<i class="fa-solid fa-exclamation"></i>
+					<span th:errors="*{keyword}"></span>
+				</div>
 			</div>
-			<div>
+			<div class="form-group">
 				<label class="userName">ユーザー名</label>
-				<input type="text" th:field="*{userName}">
+				<input type="text" class="form-control" th:field="*{userName}">
 			</div>
-			<div>
+			<div class="form-group">
 				<label class="date">期間</label>
-				<input type="date" class="dateSince" th:field="*{dateSince}">～<input type="date" class="dateUntil"
-					th:field="*{dateUntil}">
+				<input type="date" class="dateSince form-control" th:field="*{dateSince}">～<input type="date"
+					class="dateUntil form-control" th:field="*{dateUntil}">
 			</div>
-			<div>
+			<div class="form-group">
 				<label class="faves">いいね数</label>
-				<input type="number" class="minFaves" th:field="*{minFaves}">～<input type="number" class="maxFaves"
-					th:field="*{maxFaves}">
+				<input type="number" class="minFaves form-control" th:field="*{minFaves}">～<input type="number"
+					class="maxFaves form-control" th:field="*{maxFaves}">
 			</div>
-			<div>
+			<div class="form-check">
 				<i class="fa-solid fa-user"></i>
-				<input type="checkbox" class="followee" value="followee" th:id="followee" th:field="*{followee}">
-				<label for="followee">フォロイーの投稿に絞って表示</label>
+				<input type="checkbox" class="followee form-check-input" value="followee" th:id="followee"
+					th:field="*{followee}">
+				<label class="form-check-label" for="followee">フォロイーの投稿に絞って表示</label>
 			</div>
 		</div>
 		<!-- <div>
