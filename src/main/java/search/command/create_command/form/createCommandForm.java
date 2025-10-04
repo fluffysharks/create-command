@@ -1,5 +1,6 @@
 package search.command.create_command.form;
 
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class CreateCommandForm {
@@ -8,7 +9,8 @@ public class CreateCommandForm {
     private String keyword;
 
     /** ユーザー名 */
-
+    @Size(max = 50, message = "ユーザー名は50文字以内で入力してください")
+    @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "ユーザー名は半角英数字で入力してください")
     private String userName;
 
     /** 期間（Since） */
