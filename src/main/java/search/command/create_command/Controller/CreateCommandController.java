@@ -1,5 +1,8 @@
 package search.command.create_command.Controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +28,30 @@ public class CreateCommandController {
             BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
+            // バリデーションチェックでエラーがあった場合
+            return "createCommand";
+        }
+
+        boolean compareError = false;
+        if (!StringUtils.isEmpty(form.getDateSince()) && !StringUtils.isEmpty(form.getDateUntil())) {
+            if (toDate(form.getDateSince()).after(toDate(form.getDateUntil()))) {
+                // 期間（From）が期間（To）以後
+                model.addAttribute("compareDate", "期間（From）にはいいね数（To）以下の値を入力してください");
+
+                compareError = true;
+            }
+        }
+        if (!StringUtils.isEmpty(form.getMinFaves()) && !StringUtils.isEmpty(form.getMaxFaves())) {
+            if (Integer.parseInt(form.getMinFaves()) > Integer.parseInt(form.getMaxFaves())) {
+                // いいね数（Min）がいいね数（Max）よりも大きい
+                model.addAttribute("compareFaves", "いいね数（Min）にはいいね数（Max）以下の値を入力してください");
+
+                compareError = true;
+            }
+        }
+
+        if (compareError) {
+            // 相関チェックでエラーがあった場合
             return "createCommand";
         }
 
@@ -72,6 +99,21 @@ public class CreateCommandController {
         model.addAttribute("command", command);
 
         return "createCommand";
+    }
+
+    /**
+     * 文字列を日付に変換する
+     * 
+     * @param str String型の文字列
+     * @return strをDate型に変換した値
+     */
+    private Date toDate(String str) {
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-mm-dd");
+        try {
+            return date.parse(str);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

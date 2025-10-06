@@ -35,8 +35,8 @@
 					<div class="input-group">
 						<span class="input-group-text" id="basic-addon1">@</span>
 						<input type="text" maxlength="50" class="form-control"
-							th:classappend="${#fields.hasErrors('userName')}? 'is-invalid'" aria-describedby="basic-addon1"
-							th:field="*{userName}">
+							th:classappend="${#fields.hasErrors('userName')}? 'is-invalid'"
+							aria-describedby="basic-addon1" th:field="*{userName}">
 						<div th:if="${#fields.hasErrors('userName')}" class="invalid-feedback">
 							<i class="fa-solid fa-exclamation"></i>
 							<span th:errors="*{userName}"></span>
@@ -48,11 +48,16 @@
 			<div class="form-group row">
 				<label class="date col-sm-2 col-form-label">期間</label>
 				<div class="col-sm-4">
-					<input type="date" class="dateSince form-control" th:field="*{dateSince}">
+					<input type="date" class="dateSince form-control"
+						th:classappend="${!#strings.isEmpty(compareDate)}? 'is-invalid'" th:field="*{dateSince}">
 				</div>
 				<label class="date col-sm-2 col-form-label text-center">～</label>
 				<div class="col-sm-4">
 					<input type="date" class="dateUntil form-control" th:field="*{dateUntil}">
+				</div>
+				<div th:if="${!#strings.isEmpty(compareDate)}" class="invalid-feedback">
+					<i class="fa-solid fa-exclamation"></i>
+					<span th:text="${compareDate}"></span>
 				</div>
 			</div>
 
@@ -63,7 +68,7 @@
 				</div>
 				<label class="faves col-sm-2 col-form-label text-center">～</label>
 				<div class="col-sm-4">
-					<input type="number" class="maxFaves form-control d-inline" th:field="*{maxFaves}">
+					<input type="number" min="0" class="maxFaves form-control d-inline" th:field="*{maxFaves}">
 				</div>
 			</div>
 
