@@ -4,9 +4,6 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class CreateCommandForm {
-    /** キーワード */
-    @Size(max = 30, message = "キーワードは30文字以内で入力してください")
-    private String keyword;
 
     /** ユーザー名 */
     @Size(max = 50, message = "ユーザー名は50文字以内で入力してください")
@@ -22,32 +19,15 @@ public class CreateCommandForm {
     /** フォロイーの投稿を表示 */
     private String followee;
 
-    /** フォロワーの投稿を表示 */
-    private String follower;
+    /** キーワード */
+    @Size(max = 30, message = "キーワードは30文字以内で入力してください")
+    private String keyword;
 
     /** いいね数（Min） */
     private String minFaves;
 
     /** いいね数（Max） */
     private String maxFaves;
-
-    /**
-     * キーワードを取得
-     * 
-     * @return キーワード
-     */
-    public String getKeyword() {
-        return keyword;
-    }
-
-    /**
-     * キーワードを設定
-     * 
-     * @param keyword キーワード
-     */
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
-    }
 
     /**
      * ユーザー名を取得
@@ -122,21 +102,21 @@ public class CreateCommandForm {
     }
 
     /**
-     * followerを取得
+     * キーワードを取得
      * 
-     * @return follower
+     * @return キーワード
      */
-    public String getFollower() {
-        return follower;
+    public String getKeyword() {
+        return keyword;
     }
 
     /**
-     * followerを設定
+     * キーワードを設定
      * 
-     * @param follower
+     * @param keyword キーワード
      */
-    public void setFollower(String follower) {
-        this.follower = follower;
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 
     /**
