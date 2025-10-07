@@ -2,105 +2,133 @@
 <html lang="java">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-	<title>Twitter(X)検索コマンド生成</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <title>Twitter(X)検索コマンド生成</title>
 </head>
 
 <body>
-	<style>
-		.form-group {
-			margin-top: 20px;
-			margin-bottom: 20px;
-		}
+  <style>
+    .container {
+      width: 70%;
+    }
 
-		.fa-exclamation {
-			color: #DC3545;
-		}
-	</style>
+    .form-group {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
 
-	<div>
-		<span class="pageTitle h1">Twitter(X)検索コマンド生成</span>
-	</div>
+    .fa-exclamation {
+      color: #DC3545;
+    }
+  </style>
+
+  <div>
+    <span class="pageTitle h1">Twitter(X)検索コマンド生成</span>
+  </div>
 
 
-	<form th:action="@{/createTwitterCommand}" th:object="${form}" method="post">
-		<div class="container">
+  <form th:action="@{/createTwitterCommand}" th:object="${form}" method="post">
+    <div class="container">
+      <div class="form-group row">
+        <label class="userName col-sm-2 col-form-label">ユーザー名</label>
+        <div class="col-sm-10">
+          <div class="input-group">
+            <span class="input-group-text" id="basic-addon1">@</span>
+            <input type="text" maxlength="50" placeholder="半角英数字50文字以内" class="form-control"
+              th:classappend="${#fields.hasErrors('userName')}? 'is-invalid'" aria-describedby="basic-addon1"
+              th:field="*{userName}">
+            <div th:if="${#fields.hasErrors('userName')}" class="invalid-feedback">
+              <i class="fa-solid fa-exclamation"></i>
+              <span th:errors="*{userName}"></span>
+            </div>
+          </div>
+        </div>
+      </div>
 
-			<div class="form-group row">
-				<label class="userName col-sm-2 col-form-label">ユーザー名</label>
-				<div class="col-sm-10">
-					<div class="input-group">
-						<span class="input-group-text" id="basic-addon1">@</span>
-						<input type="text" maxlength="50" class="form-control"
-							th:classappend="${#fields.hasErrors('userName')}? 'is-invalid'"
-							aria-describedby="basic-addon1" th:field="*{userName}">
-						<div th:if="${#fields.hasErrors('userName')}" class="invalid-feedback">
-							<i class="fa-solid fa-exclamation"></i>
-							<span th:errors="*{userName}"></span>
-						</div>
-					</div>
-				</div>
-			</div>
+      <div class="form-group row">
+        <label class="date col-sm-2 col-form-label">期間</label>
+        <div class="col-sm-4">
+          <input type="date" class="dateSince form-control"
+            th:classappend="${!#strings.isEmpty(compareDate)}? 'is-invalid'" th:field="*{dateSince}">
+          <div th:if="${!#strings.isEmpty(compareDate)}" class="invalid-feedback">
+            <i class="fa-solid fa-exclamation"></i>
+            <span th:text="${compareDate}"></span>
+          </div>
+        </div>
 
-			<div class="form-group row">
-				<label class="date col-sm-2 col-form-label">期間</label>
-				<div class="col-sm-4">
-					<input type="date" class="dateSince form-control"
-						th:classappend="${!#strings.isEmpty(compareDate)}? 'is-invalid'" th:field="*{dateSince}">
-				</div>
-				<label class="date col-sm-2 col-form-label text-center">～</label>
-				<div class="col-sm-4">
-					<input type="date" class="dateUntil form-control" th:field="*{dateUntil}">
-				</div>
-				<div th:if="${!#strings.isEmpty(compareDate)}" class="invalid-feedback">
-					<i class="fa-solid fa-exclamation"></i>
-					<span th:text="${compareDate}"></span>
-				</div>
-			</div>
+        <label class="date col-sm-2 col-form-label text-center">～</label>
+        <div class="col-sm-4">
+          <input type="date" class="dateUntil form-control" th:field="*{dateUntil}">
+        </div>
 
-			<div class="form-group row">
-				<label class="faves col-sm-2 col-form-label">いいね数</label>
-				<div class="col-sm-4">
-					<input type="number" min="0" class="minFaves form-control d-inline" th:field="*{minFaves}">
-				</div>
-				<label class="faves col-sm-2 col-form-label text-center">～</label>
-				<div class="col-sm-4">
-					<input type="number" min="0" class="maxFaves form-control d-inline" th:field="*{maxFaves}">
-				</div>
-			</div>
+      </div>
 
-			<div class="form-group row">
-				<label class="keyword col-sm-2 col-form-label">キーワード</label>
-				<div class="col-sm-10">
-					<input type="text" maxlength="30" class="form-control"
-						th:classappend="${#fields.hasErrors('keyword')}? 'is-invalid'" th:field="*{keyword}">
-					<div th:if="${#fields.hasErrors('keyword')}" class="invalid-feedback">
-						<i class="fa-solid fa-exclamation"></i>
-						<span th:errors="*{keyword}"></span>
-					</div>
-				</div>
-			</div>
+      <div class="form-group row">
+        <label class="keyword col-sm-2 col-form-label">キーワード</label>
+        <div class="col-sm-10">
+          <input type="text" maxlength="30" placeholder="30文字以内" class="form-control"
+            th:classappend="${#fields.hasErrors('keyword')}? 'is-invalid'" th:field="*{keyword}">
+          <div th:if="${#fields.hasErrors('keyword')}" class="invalid-feedback">
+            <i class="fa-solid fa-exclamation"></i>
+            <span th:errors="*{keyword}"></span>
+          </div>
+        </div>
+      </div>
 
-			<div class="form-check">
-				<i class="fa-solid fa-user"></i>
-				<input type="checkbox" class="followee form-check-input" value="followee" th:id="followee"
-					th:field="*{followee}">
-				<label class="form-check-label" for="followee">フォロイーの投稿に絞って表示</label>
-			</div>
+      <div class="form-check form-switch">
+        <input type="checkbox" role="switch" class="followee form-check-input" value="followee" th:id="followee"
+          th:field="*{followee}">
+        <label class="form-check-label" for="followee">フォロイーの投稿に絞って表示</label>
+      </div>
 
-			<div class="form-group row">
-				<input type="submit" class="btn btn-primary col-6 mx-auto" name="generateCommand" value="コマンドを生成">
-			</div>
+      <div class="form-group">
+        <div class="accordion" id="moreOption">
+          <div class="accordion-item">
+            <h5 class="accordion-header">
+              <button class="accordion-button collapsed text-center" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse" aria-expanded="false" aria-controls="collapse">
+                <i class="fa-solid fa-plus"></i>
+                <span>さらに条件を追加</span>
+              </button>
+            </h5>
+            <div id="collapse" class="accordion-collapse collapse" data-bs-parent="#moreOption">
+              <div class="accordion-body">
+                <div class="form-group row">
+                  <label class="faves col-sm-2 col-form-label">いいね数</label>
+                  <div class="col-sm-4">
+                    <input type="number" min="0" class="minFaves form-control d-inline"
+                      th:classappend="${!#strings.isEmpty(compareFaves)}? 'is-invalid'" th:field="*{minFaves}">
+                    <div th:if="${!#strings.isEmpty(compareFaves)}" class="invalid-feedback">
+                      <i class="fa-solid fa-exclamation"></i>
+                      <span th:text="${compareFaves}"></span>
+                    </div>
+                  </div>
+                  <label class="faves col-sm-2 col-form-label text-center">～</label>
+                  <div class="col-sm-4">
+                    <input type="number" min="0" class="maxFaves form-control d-inline" th:field="*{maxFaves}">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-			<div class="form-group">
-				<div class="commandArea" th:text="${command}"></div>
-			</div>
 
-		</div>
-	</form>
+      <div class="form-group row">
+        <input type="submit" class="btn btn-primary col-6 mx-auto" name="generateCommand" value="コマンドを生成">
+      </div>
+
+      <div class="form-group">
+        <div class="commandArea" th:text="${command}"></div>
+      </div>
+
+    </div>
+  </form>
 
 </body>
 

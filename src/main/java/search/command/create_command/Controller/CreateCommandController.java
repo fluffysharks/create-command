@@ -27,18 +27,18 @@ public class CreateCommandController {
     public String displayCommand(Model model, @ModelAttribute("form") @Valid CreateCommandForm form,
             BindingResult bindingResult) {
 
+        boolean compareError = false;
+
         if (bindingResult.hasErrors()) {
             // バリデーションチェックでエラーがあった場合
-            return "createCommand";
+            compareError = true;
         }
 
-        boolean compareError = false;
         if (!StringUtils.isEmpty(form.getDateSince()) && !StringUtils.isEmpty(form.getDateUntil())) {
             if (toDate(form.getDateSince()).after(toDate(form.getDateUntil()))) {
                 // 期間（From）が期間（To）以後
-                model.addAttribute("compareDate", "期間（From）にはいいね数（To）以下の値を入力してください");
+                model.addAttribute("compareDate", "期間（From）には期間（To）以前の日付を入力してください");
 
-                compareError = true;
             }
         }
         if (!StringUtils.isEmpty(form.getMinFaves()) && !StringUtils.isEmpty(form.getMaxFaves())) {
@@ -51,7 +51,7 @@ public class CreateCommandController {
         }
 
         if (compareError) {
-            // 相関チェックでエラーがあった場合
+            // チェックでエラーがあった場合
             return "createCommand";
         }
 
