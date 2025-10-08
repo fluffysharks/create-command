@@ -19,8 +19,11 @@ public class CreateCommandForm {
     /** フォロイーの投稿を表示 */
     private String followee;
 
+    /** 画像投稿を表示 */
+    private String pictures;
+
     /** キーワード */
-    @Size(max = 30, message = "キーワードは30文字以内で入力してください")
+    @Size(max = 20, message = "キーワードは20文字以内で入力してください")
     private String keyword;
 
     /** いいね数（Min） */
@@ -99,6 +102,24 @@ public class CreateCommandForm {
      */
     public void setFollowee(String followee) {
         this.followee = followee;
+    }
+
+    /**
+     * picturesを取得
+     * 
+     * @return pictures
+     */
+    public String getPictures() {
+        return pictures;
+    }
+
+    /**
+     * picturesを設定
+     * 
+     * @param pictures
+     */
+    public void setPictures(String pictures) {
+        this.pictures = pictures;
     }
 
     /**
