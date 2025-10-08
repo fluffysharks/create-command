@@ -13,7 +13,7 @@
 <body>
   <style>
     .container {
-      width: 70%;
+      width: 80%;
     }
 
     .form-group {
@@ -21,8 +21,23 @@
       margin-bottom: 20px;
     }
 
+    .form-check {
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    label {
+      white-space: nowrap;
+    }
+
     .fa-exclamation {
       color: #DC3545;
+    }
+
+    @media (max-width:576px) {
+      .container {
+        width: 70%;
+      }
     }
   </style>
 
@@ -60,7 +75,7 @@
           </div>
         </div>
 
-        <label class="date col-sm-2 col-form-label text-center">～</label>
+        <label class="date col-sm-1 col-form-label text-center dash">～</label>
         <div class="col-sm-4">
           <input type="date" class="dateUntil form-control" th:field="*{dateUntil}">
         </div>
@@ -70,7 +85,7 @@
       <div class="form-group row">
         <label class="keyword col-sm-2 col-form-label">キーワード</label>
         <div class="col-sm-10">
-          <input type="text" maxlength="30" placeholder="30文字以内" class="form-control"
+          <input type="text" maxlength="20" placeholder="20文字以内" class="form-control"
             th:classappend="${#fields.hasErrors('keyword')}? 'is-invalid'" th:field="*{keyword}">
           <div th:if="${#fields.hasErrors('keyword')}" class="invalid-feedback">
             <i class="fa-solid fa-exclamation"></i>
@@ -82,7 +97,13 @@
       <div class="form-check form-switch">
         <input type="checkbox" role="switch" class="followee form-check-input" value="followee" th:id="followee"
           th:field="*{followee}">
-        <label class="form-check-label" for="followee">フォロイーの投稿に絞って表示</label>
+        <label class="form-check-label" for="followee">フォロイーの投稿のみ表示</label>
+      </div>
+
+      <div class="form-check form-switch">
+        <input type="checkbox" role="switch" class="pictures form-check-input" value="pictures" th:id="pictures"
+          th:field="*{pictures}">
+        <label class="form-check-label" for="pictures">画像投稿のみ表示</label>
       </div>
 
       <div class="form-group">
@@ -107,7 +128,7 @@
                       <span th:text="${compareFaves}"></span>
                     </div>
                   </div>
-                  <label class="faves col-sm-2 col-form-label text-center">～</label>
+                  <label class="faves col-sm-1 col-form-label text-center dash">～</label>
                   <div class="col-sm-4">
                     <input type="number" min="0" class="maxFaves form-control d-inline" th:field="*{maxFaves}">
                   </div>
@@ -120,7 +141,8 @@
 
 
       <div class="form-group row">
-        <input type="submit" class="btn btn-primary col-6 mx-auto" name="generateCommand" value="コマンドを生成">
+        <input type="button" class="btn btn-danger col-5 mx-auto" name="reset" value="条件をリセット">
+        <input type="submit" class="btn btn-primary col-5 mx-auto" name="generateCommand" value="コマンドを生成">
       </div>
 
       <div class="form-group">
