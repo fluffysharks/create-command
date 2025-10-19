@@ -34,18 +34,21 @@ public class CreateCommandController {
             compareError = true;
         }
 
+        // 相関チェック 期間
         if (!StringUtils.isEmpty(form.getDateSince()) && !StringUtils.isEmpty(form.getDateUntil())) {
             if (toDate(form.getDateSince()).after(toDate(form.getDateUntil()))) {
                 // 期間（From）が期間（To）以後
                 model.addAttribute("compareDate", "期間（From）には期間（To）以前の日付を入力してください");
+                compareError = true;
 
             }
         }
+
+        // 相関チェック いいね数
         if (!StringUtils.isEmpty(form.getMinFaves()) && !StringUtils.isEmpty(form.getMaxFaves())) {
             if (Integer.parseInt(form.getMinFaves()) > Integer.parseInt(form.getMaxFaves())) {
                 // いいね数（Min）がいいね数（Max）よりも大きい
                 model.addAttribute("compareFaves", "いいね数（Min）にはいいね数（Max）以下の値を入力してください");
-
                 compareError = true;
             }
         }
@@ -72,6 +75,21 @@ public class CreateCommandController {
             command.append("until:" + form.getDateUntil() + " ");
         }
 
+        if (!StringUtils.isEmpty(form.getKeyword())) {
+            // 「キーワード」が入力されていればキーワードを追加
+            command.append(form.getKeyword());
+        }
+
+        if (!StringUtils.isEmpty(form.getFollowee())) {
+            // 「フォロイーの投稿に絞って表示」が選択されていればfilter:followsを追加
+            command.append("filter:follows ");
+        }
+
+        if (!StringUtils.isEmpty(form.getPictures())) {
+            // 「画像投稿のみ表示」が選択されていればfilter:imagesを追加
+            command.append("filter:images ");
+        }
+
         if (!StringUtils.isEmpty(form.getMinFaves())) {
             // 「いいね数（Min）」が入力されていればmin_faves検索を追加
             command.append("min_faves:" + form.getMinFaves() + " ");
@@ -80,20 +98,6 @@ public class CreateCommandController {
         if (!StringUtils.isEmpty(form.getMaxFaves())) {
             // 「いいね数（Max）」が入力されていればmax_faves検索を追加F
             command.append("max_faves:" + form.getMaxFaves() + " ");
-        }
-
-        if (!StringUtils.isEmpty(form.getFollowee())) {
-            // 「フォロイーの投稿に絞って表示」が選択されていればfilter:followsを追加
-            command.append("filter:follows ");
-        }
-        // if (!StringUtils.isEmpty(form.getDateUntil())) {
-        // // 「フォロワーの投稿に絞って表示」が入力されていればを追加
-        // command.append("filter:followers ");
-        // }
-
-        if (!StringUtils.isEmpty(form.getKeyword())) {
-            // 「キーワード」が選択されていればキーワードを追加
-            command.append(form.getKeyword());
         }
 
         model.addAttribute("command", command);
