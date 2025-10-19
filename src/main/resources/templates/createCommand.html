@@ -53,7 +53,7 @@
         <div class="col-sm-10">
           <div class="input-group">
             <span class="input-group-text" id="basic-addon1">@</span>
-            <input type="text" maxlength="50" placeholder="半角英数字50文字以内" class="form-control"
+            <input type="text" maxlength="50" placeholder="半角英数字＋アンダーバー50文字以内" class="form-control"
               th:classappend="${#fields.hasErrors('userName')}? 'is-invalid'" aria-describedby="basic-addon1"
               th:field="*{userName}">
             <div th:if="${#fields.hasErrors('userName')}" class="invalid-feedback">
@@ -66,20 +66,23 @@
 
       <div class="form-group row">
         <label class="date col-sm-2 col-form-label">期間</label>
-        <div class="col-sm-4">
-          <input type="date" class="dateSince form-control"
-            th:classappend="${!#strings.isEmpty(compareDate)}? 'is-invalid'" th:field="*{dateSince}">
-          <div th:if="${!#strings.isEmpty(compareDate)}" class="invalid-feedback">
-            <i class="fa-solid fa-exclamation"></i>
-            <span th:text="${compareDate}"></span>
+        <div class="col-sm-10">
+          <div class="row">
+            <div class="col-5">
+              <input type="date" class="dateSince form-control"
+                th:classappend="${!#strings.isEmpty(compareDate)}? 'is-invalid'" th:field="*{dateSince}">
+              <div th:if="${!#strings.isEmpty(compareDate)}" class="invalid-feedback">
+                <i class="fa-solid fa-exclamation"></i>
+                <span th:text="${compareDate}"></span>
+              </div>
+            </div>
+
+            <label class="date col-2 col-form-label text-center">～</label>
+            <div class="col-5">
+              <input type="date" class="dateUntil form-control" th:field="*{dateUntil}">
+            </div>
           </div>
         </div>
-
-        <label class="date col-sm-1 col-form-label text-center dash">～</label>
-        <div class="col-sm-4">
-          <input type="date" class="dateUntil form-control" th:field="*{dateUntil}">
-        </div>
-
       </div>
 
       <div class="form-group row">
@@ -120,38 +123,63 @@
               <div class="accordion-body">
                 <div class="form-group row">
                   <label class="faves col-sm-2 col-form-label">いいね数</label>
-                  <div class="col-sm-4">
-                    <input type="number" min="0" class="minFaves form-control d-inline"
-                      th:classappend="${!#strings.isEmpty(compareFaves)}? 'is-invalid'" th:field="*{minFaves}">
-                    <div th:if="${!#strings.isEmpty(compareFaves)}" class="invalid-feedback">
-                      <i class="fa-solid fa-exclamation"></i>
-                      <span th:text="${compareFaves}"></span>
+                  <div class="col-sm-10">
+                    <div class="row">
+                      <div class="col-5">
+                        <input type="number" min="0" class="minFaves form-control d-inline"
+                          th:classappend="${!#strings.isEmpty(compareFaves)}? 'is-invalid'" th:field="*{minFaves}">
+                        <div th:if="${!#strings.isEmpty(compareFaves)}" class="invalid-feedback">
+                          <i class="fa-solid fa-exclamation"></i>
+                          <span th:text="${compareFaves}"></span>
+                        </div>
+                      </div>
+                      <label class="faves col-2 col-form-label text-center">～</label>
+                      <div class="col-5">
+                        <input type="number" min="0" class="maxFaves form-control d-inline" th:field="*{maxFaves}">
+                      </div>
                     </div>
-                  </div>
-                  <label class="faves col-sm-1 col-form-label text-center dash">～</label>
-                  <div class="col-sm-4">
-                    <input type="number" min="0" class="maxFaves form-control d-inline" th:field="*{maxFaves}">
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+
+        <div class="form-group row">
+          <input type="button" class="btn btn-danger col-5 mx-auto" name="reset" value="条件をリセット">
+          <input type="submit" class="btn btn-primary col-5 mx-auto" name="generateCommand" value="コマンドを生成">
+        </div>
+
+        <div class="form-group">
+          <div class="commandArea" th:text="${command}"></div>
+        </div>
       </div>
 
+      <div class="h4">ヘルプ</div>
+      <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          <button class="nav-link active" id="nav-description-tab" data-bs-toggle="tab"
+            data-bs-target="#nav-description" type="button" role="tab" aria-controls="nav-description"
+            aria-selected="true">説明</button>
+          <button class="nav-link" id="nav-qa-tab" data-bs-toggle="tab" data-bs-target="#nav-qa" type="button"
+            role="tab" aria-controls="nav-qa" aria-selected="false">Q＆A</button>
+      </nav>
 
-      <div class="form-group row">
-        <input type="button" class="btn btn-danger col-5 mx-auto" name="reset" value="条件をリセット">
-        <input type="submit" class="btn btn-primary col-5 mx-auto" name="generateCommand" value="コマンドを生成">
+      <div class="tab-content" id="nav-tabContent">
+        <div class="tap-pane fade show active" id="nav-description" role="tabpanel"
+          aria-labelledby="nav-description-tab" tabindex="0">
+          <div>twitterのコマンドを生成するサイトです。</div>
+          <div>このサイトで生成したコマンドをtwitterの検索欄にペーストして検索するだけで、条件に合致する投稿が表示されます。</div>
+         
+        </div>
+        <div class="tab-pane fade" id="nav-qa" role="tabpanel" aria-labelledby="nav-qa-tab" tabindex="0">
+          <div class="h5">Q.エラーが出てしまい、コマンドが生成されない</div>
+          <div>特にアンダーバー（_）が全角になっていないか</div>
+        </div>
       </div>
-
-      <div class="form-group">
-        <div class="commandArea" th:text="${command}"></div>
-      </div>
-
     </div>
   </form>
-
 </body>
 
 </html>

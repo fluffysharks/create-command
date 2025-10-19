@@ -7,7 +7,7 @@ public class CreateCommandForm {
 
     /** ユーザー名 */
     @Size(max = 50, message = "ユーザー名は50文字以内で入力してください")
-    @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "ユーザー名は半角英数字で入力してください")
+    @Pattern(regexp = "^[a-zA-Z0-9_]*$", message = "ユーザー名は半角英数字＋アンダーバーで入力してください")
     private String userName;
 
     /** 期間（Since） */
@@ -15,16 +15,15 @@ public class CreateCommandForm {
 
     /** 期間（Until） */
     private String dateUntil;
+    /** キーワード */
+    @Size(max = 20, message = "キーワードは20文字以内で入力してください")
+    private String keyword;
 
     /** フォロイーの投稿を表示 */
     private String followee;
 
     /** 画像投稿を表示 */
     private String pictures;
-
-    /** キーワード */
-    @Size(max = 20, message = "キーワードは20文字以内で入力してください")
-    private String keyword;
 
     /** いいね数（Min） */
     private String minFaves;
@@ -87,6 +86,24 @@ public class CreateCommandForm {
     }
 
     /**
+     * キーワードを取得
+     * 
+     * @return キーワード
+     */
+    public String getKeyword() {
+        return keyword;
+    }
+
+    /**
+     * キーワードを設定
+     * 
+     * @param keyword キーワード
+     */
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
+    /**
      * followeeを取得
      * 
      * @return followee
@@ -120,24 +137,6 @@ public class CreateCommandForm {
      */
     public void setPictures(String pictures) {
         this.pictures = pictures;
-    }
-
-    /**
-     * キーワードを取得
-     * 
-     * @return キーワード
-     */
-    public String getKeyword() {
-        return keyword;
-    }
-
-    /**
-     * キーワードを設定
-     * 
-     * @param keyword キーワード
-     */
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
     }
 
     /**
