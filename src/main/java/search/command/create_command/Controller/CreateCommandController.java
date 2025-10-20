@@ -76,8 +76,8 @@ public class CreateCommandController {
         }
 
         if (!StringUtils.isEmpty(form.getKeyword())) {
-            // 「キーワード」が入力されていればキーワードを追加
-            command.append(form.getKeyword());
+            // 「キーワード（完全一致）」が入力されていればキーワード（完全一致）を追加
+            command.append("\"" + form.getKeyword() + "\"");
         }
 
         if (!StringUtils.isEmpty(form.getFollowee())) {
@@ -90,6 +90,11 @@ public class CreateCommandController {
             command.append("filter:images ");
         }
 
+        if (!StringUtils.isEmpty(form.getRemoveKeyword())) {
+            // 「除外するキーワード（完全一致）」が入力されていれば除外するキーワード（完全一致）を追加
+            command.append("-\"" + form.getRemoveKeyword() + "\"");
+        }
+
         if (!StringUtils.isEmpty(form.getMinFaves())) {
             // 「いいね数（Min）」が入力されていればmin_faves検索を追加
             command.append("min_faves:" + form.getMinFaves() + " ");
@@ -98,6 +103,11 @@ public class CreateCommandController {
         if (!StringUtils.isEmpty(form.getMaxFaves())) {
             // 「いいね数（Max）」が入力されていればmax_faves検索を追加F
             command.append("max_faves:" + form.getMaxFaves() + " ");
+        }
+
+        if (!StringUtils.isEmpty(form.getReply())) {
+            // 「特定ユーザー宛ての返信」が入力されていれば、to検索を追加
+            command.append("to:" + form.getReply() + " ");
         }
 
         model.addAttribute("command", command);
