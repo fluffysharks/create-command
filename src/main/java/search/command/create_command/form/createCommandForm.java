@@ -15,8 +15,8 @@ public class CreateCommandForm {
 
     /** 期間（Until） */
     private String dateUntil;
-    /** キーワード */
-    @Size(max = 20, message = "キーワードは20文字以内で入力してください")
+    /** キーワード（完全一致） */
+    @Size(max = 20, message = "キーワード（完全一致）は20文字以内で入力してください")
     private String keyword;
 
     /** フォロイーの投稿を表示 */
@@ -25,11 +25,20 @@ public class CreateCommandForm {
     /** 画像投稿を表示 */
     private String pictures;
 
+    /** 除外するキーワード（完全一致） */
+    @Size(max = 20, message = "除外するキーワード（完全一致）は20文字以内で入力してください")
+    private String removeKeyword;
+
     /** いいね数（Min） */
     private String minFaves;
 
     /** いいね数（Max） */
     private String maxFaves;
+
+    /** 特定ユーザー宛ての返信 */
+    @Size(max = 50, message = "ユーザー名は50文字以内で入力してください")
+    @Pattern(regexp = "^[a-zA-Z0-9_]*$", message = "ユーザー名は半角英数字＋アンダーバーで入力してください")
+    private String reply;
 
     /**
      * ユーザー名を取得
@@ -86,18 +95,18 @@ public class CreateCommandForm {
     }
 
     /**
-     * キーワードを取得
+     * キーワード（完全一致）を取得
      * 
-     * @return キーワード
+     * @return キーワード（完全一致）
      */
     public String getKeyword() {
         return keyword;
     }
 
     /**
-     * キーワードを設定
+     * キーワード（完全一致）を設定
      * 
-     * @param keyword キーワード
+     * @param keyword キーワード（完全一致）
      */
     public void setKeyword(String keyword) {
         this.keyword = keyword;
@@ -140,6 +149,24 @@ public class CreateCommandForm {
     }
 
     /**
+     * 除外するキーワード（完全一致）を取得
+     * 
+     * @return removeKeyword
+     */
+    public String getRemoveKeyword() {
+        return removeKeyword;
+    }
+
+    /**
+     * 除外するキーワード（完全一致）を設定
+     * 
+     * @param removeKeyword 除外するキーワード（完全一致）
+     */
+    public void setRemoveKeyword(String removeKeyword) {
+        this.removeKeyword = removeKeyword;
+    }
+
+    /**
      * いいね数（Min）を取得
      * 
      * @return minFaves
@@ -174,4 +201,23 @@ public class CreateCommandForm {
     public void setMaxFaves(String maxFaves) {
         this.maxFaves = maxFaves;
     }
+
+    /**
+     * replyを取得
+     * 
+     * @return reply
+     */
+    public String getReply() {
+        return reply;
+    }
+
+    /**
+     * replyを設定
+     * 
+     * @param reply 特定ユーザー宛ての返信
+     */
+    public void setReply(String reply) {
+        this.reply = reply;
+    }
+
 }
