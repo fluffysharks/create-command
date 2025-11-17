@@ -92,7 +92,7 @@ public class CreateCommandController {
 
         if (!StringUtils.isEmpty(form.getRemoveKeyword())) {
             // 「除外するキーワード（完全一致）」が入力されていれば除外するキーワード（完全一致）を追加
-            command.append("-\"" + form.getRemoveKeyword() + "\"");
+            command.append("-\"" + form.getRemoveKeyword() + "\" ");
         }
 
         if (!StringUtils.isEmpty(form.getMinFaves())) {
