@@ -30,6 +30,8 @@
       white-space: nowrap;
     }
 
+
+
     .fa-exclamation {
       color: #DC3545;
     }
@@ -53,7 +55,7 @@
         <div class="col-sm-9">
           <div class="input-group">
             <span class="input-group-text" id="basic-addon1">@</span>
-            <input type="text" maxlength="50" placeholder="半角英数字＋アンダーバー50文字以内" class="form-control"
+            <input type="text" maxlength="50" placeholder="半角英数字と「_」のみ15文字以内" class="form-control"
               th:classappend="${#fields.hasErrors('userName')}? 'is-invalid'" aria-describedby="basic-addon1"
               th:field="*{userName}">
             <div th:if="${#fields.hasErrors('userName')}" class="invalid-feedback">
@@ -158,7 +160,7 @@
                   <div class="col-sm-9">
                     <div class="input-group">
                       <span class="input-group-text" id="basic-addon1">@</span>
-                      <input type="text" maxlength="50" placeholder="半角英数字＋アンダーバー50文字以内" class="form-control"
+                      <input type="text" maxlength="50" placeholder="半角英数字と「_」のみ15文字以内" class="form-control"
                         th:classappend="${#fields.hasErrors('reply')}? 'is-invalid'" aria-describedby="basic-addon1"
                         th:field="*{reply}">
                       <div th:if="${#fields.hasErrors('reply')}" class="invalid-feedback">
@@ -168,7 +170,6 @@
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
@@ -180,20 +181,23 @@
           <input type="submit" class="btn btn-primary col-5 mx-auto" name="generateCommand" value="コマンドを生成">
         </div>
 
+        <br>
         <div class="form-group">
-          <label class="keyword col-form-label h5">結果</label>
-          <div>
-            <textarea rows="3" class="form-control commandArea" id="commandArea" th:text="${command}"
-              readonly></textarea>
-            <button type="button" class="btn btn-light" id="copyButton">
+          <div class="d-flex mb-2">
+            <label class="h5 p-2">結果</label>
+            <button type="button" class="btn btn-light ms-auto p-2" id="copyButton">
               <i class="fa-solid fa-copy"></i>
               <span>コピー</span>
             </button>
           </div>
+          <div>
+            <textarea rows="3" class="form-control commandArea" id="commandArea" th:text="${command}"
+              readonly></textarea>
+          </div>
         </div>
 
 
-        <div class="h4">ヘルプ</div>
+        <div class="h5">ヘルプ</div>
         <nav>
           <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <button class="nav-link active" id="nav-description-tab" data-bs-toggle="tab"
@@ -211,12 +215,13 @@
 
           </div>
           <div class="tab-pane fade" id="nav-qa" role="tabpanel" aria-labelledby="nav-qa-tab" tabindex="0">
-            <div class="h5">Q.エラーが出てしまい、コマンドが生成されない</div>
+            <div class="h6">Q.エラーが出てしまい、コマンドが生成されない</div>
             <div>特にアンダーバー（_）が全角になっていないか</div>
           </div>
         </div>
       </div>
   </form>
+
 
   <script>
     // コマンドをコピーするボタン
@@ -225,7 +230,7 @@
       var copyText = document.getElementById("commandArea");
       copyText.select();
       document.execCommand("copy");
-      alert("コピーしました");
+      alert("コマンドをコピーしました！");
     });
 
   </script>
