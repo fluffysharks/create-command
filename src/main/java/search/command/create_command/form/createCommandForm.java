@@ -6,8 +6,8 @@ import jakarta.validation.constraints.Size;
 public class CreateCommandForm {
 
     /** ユーザー名 */
-    @Size(max = 50, message = "ユーザー名は50文字以内で入力してください")
-    @Pattern(regexp = "^[a-zA-Z0-9_]*$", message = "ユーザー名は半角英数字＋アンダーバーで入力してください")
+    @Size(max = 15, message = "15文字以内で入力してください")
+    @Pattern(regexp = "^[a-zA-Z0-9_]*$", message = "半角英数字とアンダーバーのみ入力できます")
     private String userName;
 
     /** 期間（Since） */
@@ -16,7 +16,7 @@ public class CreateCommandForm {
     /** 期間（Until） */
     private String dateUntil;
     /** キーワード（完全一致） */
-    @Size(max = 20, message = "キーワード（完全一致）は20文字以内で入力してください")
+    @Size(max = 20, message = "20文字以内で入力してください")
     private String keyword;
 
     /** フォロイーの投稿を表示 */
@@ -26,7 +26,7 @@ public class CreateCommandForm {
     private String pictures;
 
     /** 除外するキーワード（完全一致） */
-    @Size(max = 20, message = "除外するキーワード（完全一致）は20文字以内で入力してください")
+    @Size(max = 20, message = "20文字以内で入力してください")
     private String removeKeyword;
 
     /** いいね数（Min） */
@@ -36,8 +36,8 @@ public class CreateCommandForm {
     private String maxFaves;
 
     /** 特定ユーザー宛ての返信 */
-    @Size(max = 50, message = "ユーザー名は50文字以内で入力してください")
-    @Pattern(regexp = "^[a-zA-Z0-9_]*$", message = "ユーザー名は半角英数字＋アンダーバーで入力してください")
+    @Size(max = 15, message = "15文字以内で入力してください")
+    @Pattern(regexp = "^[a-zA-Z0-9_]*$", message = "半角英数字とアンダーバーのみ入力できます")
     private String reply;
 
     /**

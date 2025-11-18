@@ -58,6 +58,37 @@ public class CreateCommandController {
             return "createCommand";
         }
 
+        // コマンドを生成
+        StringBuilder command = createCommand(form);
+
+        model.addAttribute("command", command);
+
+        return "createCommand";
+    }
+
+    /**
+     * 文字列を日付に変換する
+     * 
+     * @param str String型の文字列
+     * @return strをDate型に変換した値
+     */
+    private Date toDate(String str) {
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-mm-dd");
+        try {
+            return date.parse(str);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * コマンドの文字列を作る
+     * 
+     * @param form フォーム入力情報
+     * @return StringBuilder型のコマンド
+     */
+    private StringBuilder createCommand(CreateCommandForm form) {
+
         StringBuilder command = new StringBuilder();
 
         if (!StringUtils.isEmpty(form.getUserName())) {
@@ -110,24 +141,7 @@ public class CreateCommandController {
             command.append("to:" + form.getReply() + " ");
         }
 
-        model.addAttribute("command", command);
-
-        return "createCommand";
-    }
-
-    /**
-     * 文字列を日付に変換する
-     * 
-     * @param str String型の文字列
-     * @return strをDate型に変換した値
-     */
-    private Date toDate(String str) {
-        SimpleDateFormat date = new SimpleDateFormat("yyyy-mm-dd");
-        try {
-            return date.parse(str);
-        } catch (Exception e) {
-            return null;
-        }
+        return command;
     }
 
 }
