@@ -19,7 +19,7 @@ public class CreateCommandForm {
     @Size(max = 20, message = "20文字以内で入力してください")
     private String keyword;
 
-    /** フォロイーの投稿を表示 */
+    /** フォローしている人の投稿を表示 */
     private String followee;
 
     /** 画像投稿を表示 */
