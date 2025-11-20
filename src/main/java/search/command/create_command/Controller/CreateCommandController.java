@@ -112,7 +112,7 @@ public class CreateCommandController {
         }
 
         if (!StringUtils.isEmpty(form.getFollowee())) {
-            // 「フォロイーの投稿に絞って表示」が選択されていればfilter:followsを追加
+            // 「フォローしている人の投稿を表示」が選択されていればfilter:followsを追加
             command.append("filter:follows ");
         }
 
