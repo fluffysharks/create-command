@@ -108,7 +108,7 @@ public class CreateCommandController {
 
         if (!StringUtils.isEmpty(form.getKeyword())) {
             // 「キーワード（完全一致）」が入力されていればキーワード（完全一致）を追加
-            command.append("\"" + form.getKeyword() + "\"");
+            command.append("\"" + form.getKeyword() + "\" ");
         }
 
         if (!StringUtils.isEmpty(form.getFollowee())) {

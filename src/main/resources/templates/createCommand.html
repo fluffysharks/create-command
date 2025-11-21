@@ -30,9 +30,9 @@
       white-space: nowrap;
     }
 
-    .validation{
+    .validation {
       display: none;
-      }
+    }
 
     .fa-exclamation {
       color: #DC3545;
@@ -42,12 +42,13 @@
       .container {
         width: 90%;
       }
-      .validation{
-        display:block;
+
+      .validation {
+        display: block;
         font-size: 80%;
       }
 
-      .longPlaceholder::placeholder{
+      .longPlaceholder::placeholder {
         color: transparent
       }
     }
@@ -61,13 +62,14 @@
   <form th:action="@{/createTwitterCommand}" th:object="${form}" method="post">
     <div class="container">
       <div class="form-group row">
-        <label class="userName col-sm-3 col-form-label text-wrap">ユーザー名<br><span class="validation">※半角英数字とアンダーバーのみ&nbsp;15文字以内</span></label>
+        <label class="userName col-sm-3 col-form-label text-wrap">ユーザー名<br><span
+            class="validation">※半角英数字とアンダーバーのみ&nbsp;15文字以内</span></label>
         <div class="col-sm-9">
           <div class="input-group">
             <span class="input-group-text" id="basic-addon1">@</span>
             <input type="text" maxlength="50" placeholder="半角英数字と「_」のみ 15文字以内" class="form-control longPlaceholder"
               th:classappend="${#fields.hasErrors('userName')}? 'is-invalid'" aria-describedby="basic-addon1"
-              th:field="*{userName}">
+              th:field="*{userName}" data-reset>
             <div th:if="${#fields.hasErrors('userName')}" class="invalid-feedback">
               <i class="fa-solid fa-exclamation"></i>
               <span th:errors="*{userName}"></span>
@@ -82,7 +84,7 @@
           <div class="row">
             <div class="col-5">
               <input type="date" class="dateSince form-control"
-                th:classappend="${!#strings.isEmpty(compareDate)}? 'is-invalid'" th:field="*{dateSince}">
+                th:classappend="${!#strings.isEmpty(compareDate)}? 'is-invalid'" th:field="*{dateSince}" data-reset>
               <div th:if="${!#strings.isEmpty(compareDate)}" class="invalid-feedback">
                 <i class="fa-solid fa-exclamation"></i>
                 <span th:text="${compareDate}"></span>
@@ -91,7 +93,7 @@
 
             <label class="date col-2 col-form-label text-center">～</label>
             <div class="col-5">
-              <input type="date" class="dateUntil form-control" th:field="*{dateUntil}">
+              <input type="date" class="dateUntil form-control" th:field="*{dateUntil}" data-reset>
             </div>
           </div>
         </div>
@@ -101,7 +103,7 @@
         <label class="keyword col-sm-3 col-form-label text-wrap">キーワード（完全一致）</label>
         <div class="col-sm-9">
           <input type="text" maxlength="20" placeholder="20文字以内" class="form-control"
-            th:classappend="${#fields.hasErrors('keyword')}? 'is-invalid'" th:field="*{keyword}">
+            th:classappend="${#fields.hasErrors('keyword')}? 'is-invalid'" th:field="*{keyword}" data-reset>
           <div th:if="${#fields.hasErrors('keyword')}" class="invalid-feedback">
             <i class="fa-solid fa-exclamation"></i>
             <span th:errors="*{keyword}"></span>
@@ -111,13 +113,13 @@
 
       <div class="form-check form-switch">
         <input type="checkbox" role="switch" class="followee form-check-input" value="followee" th:id="followee"
-          th:field="*{followee}">
+          th:field="*{followee}" data-reset>
         <label class="form-check-label" for="followee">フォローしている人の投稿のみ表示</label>
       </div>
 
-      <div class="form-check form-switch">
+      <div class="form-check form-switch mb-3">
         <input type="checkbox" role="switch" class="pictures form-check-input" value="pictures" th:id="pictures"
-          th:field="*{pictures}">
+          th:field="*{pictures}" data-reset>
         <label class="form-check-label" for="pictures">画像投稿のみ表示</label>
       </div>
 
@@ -137,7 +139,7 @@
                   <label class="keyword col-sm-3 col-form-label text-wrap">除外するキーワード（完全一致）</label>
                   <div class="col-sm-9">
                     <input type="text" maxlength="20" placeholder="20文字以内" class="form-control"
-                      th:classappend="${#fields.hasErrors('removeKeyword')}? 'is-invalid'" th:field="*{removeKeyword}">
+                      th:classappend="${#fields.hasErrors('removeKeyword')}? 'is-invalid'" th:field="*{removeKeyword}" data-reset>
                     <div th:if="${#fields.hasErrors('removeKeyword')}" class="invalid-feedback">
                       <i class="fa-solid fa-exclamation"></i>
                       <span th:errors="*{removeKeyword}"></span>
@@ -151,7 +153,7 @@
                     <div class="row">
                       <div class="col-5">
                         <input type="number" min="0" class="minFaves form-control d-inline"
-                          th:classappend="${!#strings.isEmpty(compareFaves)}? 'is-invalid'" th:field="*{minFaves}">
+                          th:classappend="${!#strings.isEmpty(compareFaves)}? 'is-invalid'" th:field="*{minFaves}" data-reset>
                         <div th:if="${!#strings.isEmpty(compareFaves)}" class="invalid-feedback">
                           <i class="fa-solid fa-exclamation"></i>
                           <span th:text="${compareFaves}"></span>
@@ -159,7 +161,7 @@
                       </div>
                       <label class="faves col-2 col-form-label text-center">～</label>
                       <div class="col-5">
-                        <input type="number" min="0" class="maxFaves form-control d-inline" th:field="*{maxFaves}">
+                        <input type="number" min="0" class="maxFaves form-control d-inline" th:field="*{maxFaves}" data-reset>
                       </div>
                     </div>
                   </div>
@@ -171,9 +173,10 @@
                   <div class="col-sm-9">
                     <div class="input-group">
                       <span class="input-group-text" id="basic-addon2">@</span>
-                      <input type="text" maxlength="50" placeholder="半角英数字と「_」のみ 15文字以内" class="form-control longPlaceholder"
+                      <input type="text" maxlength="50" placeholder="半角英数字と「_」のみ 15文字以内"
+                        class="form-control longPlaceholder"
                         th:classappend="${#fields.hasErrors('reply')}? 'is-invalid'" aria-describedby="basic-addon2"
-                        th:field="*{reply}">
+                        th:field="*{reply}" data-reset>
                       <div th:if="${#fields.hasErrors('reply')}" class="invalid-feedback">
                         <i class="fa-solid fa-exclamation"></i>
                         <span th:errors="*{reply}"></span>
@@ -188,12 +191,12 @@
 
 
         <div class="form-group row mb-5">
-          <input type="button" class="btn btn-danger col-5 mx-auto" value="条件をリセット">
+          <input type="button" class="btn btn-danger col-5 mx-auto" id="resetButton" value="条件をリセット">
           <input type="submit" class="btn btn-primary col-5 mx-auto" name="generateCommand" value="コマンドを生成">
         </div>
 
         <div class="form-group">
-          <div class="d-flex mb-3">
+          <div class="d-flex mb-2">
             <label class="h5">結果</label>
             <div class="ms-auto d-flex gap-2">
               <button type="button" class="btn btn-warning btn-sm" id="favButton">
@@ -214,40 +217,61 @@
 
         <div class="form-group">
           <div class="h5">ヘルプ</div>
-          <nav>
-            <div class="nav nav-tabs" id="nav-tab" role="tablist">
-              <button class="nav-link active" id="nav-description-tab" data-bs-toggle="tab"
-                data-bs-target="#nav-description" type="button" role="tab" aria-controls="nav-description"
+          <ul class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button type="button" class="nav-link active" id="nav-description-tab" data-bs-toggle="tab"
+                data-bs-target="#nav-description" role="tab" aria-controls="nav-description"
                 aria-selected="true">説明</button>
-              <button class="nav-link" id="nav-qa-tab" data-bs-toggle="tab" data-bs-target="#nav-qa" type="button"
+            </li>
+            <li class="nav-item" role="presentation">
+              <button type="button" class="nav-link" id="nav-qa-tab" data-bs-toggle="tab" data-bs-target="#nav-qa"
                 role="tab" aria-controls="nav-qa" aria-selected="false">Q＆A</button>
-          </nav>
+            </li>
+          </ul>
 
           <div class="tab-content" id="nav-tabContent">
-            <div class="tap-pane fade show active" id="nav-description" role="tabpanel"
-              aria-labelledby="nav-description-tab" tabindex="0">
+            <div class="tab-pane show active" id="nav-description" role="tabpanel" aria-labelledby="nav-description-tab"
+              tabindex="0">
               <div>twitterのコマンドを生成するサイトです。</div>
               <div>このサイトで生成したコマンドをtwitterの検索欄にペーストして検索するだけで、条件に合致する投稿が表示されます。</div>
-
             </div>
-            <div class="tab-pane fade" id="nav-qa" role="tabpanel" aria-labelledby="nav-qa-tab" tabindex="0">
+            <div class="tab-pane" id="nav-qa" role="tabpanel" aria-labelledby="nav-qa-tab" tabindex="0">
               <div class="h6">Q.エラーが出てしまい、コマンドが生成されない</div>
               <div>特にアンダーバー（_）が全角になっていないか</div>
             </div>
           </div>
-
         </div>
   </form>
 
 
   <script>
+    // 生成条件をリセットするボタン
+    const resetButton = document.getElementById("resetButton");
+    resetButton.addEventListener("click", () => {
+      const inputFields = document.querySelectorAll("[data-reset]");
+      inputFields.forEach(inputField => {
+        inputField.value = ''
+      });
+      const checkboxs = document.getElementsByClassName("form-check-input");
+      Array.from(checkboxs).forEach(checkbox => {
+        checkbox.checked = false;
+      });
+    });
+
     // コマンドをコピーするボタン
-    var copyButton = document.getElementById("copyButton");
+    const copyButton = document.getElementById("copyButton");
     copyButton.addEventListener("click", () => {
-      var copyText = document.getElementById("commandArea");
+      const copyText = document.getElementById("commandArea");
       copyText.select();
       document.execCommand("copy");
       alert("コマンドをコピーしました！");
+    });
+
+    // コマンドをお気に入り登録するボタン
+    const favButton = document.getElementById("favButton");
+    favButton.addEventListener("click", () => {
+
+      alert("コマンドをお気に入り登録しました！");
     });
 
   </script>
