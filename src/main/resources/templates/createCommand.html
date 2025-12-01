@@ -256,14 +256,52 @@
 
 
   <script>
-    // ページ読み込み時にお気に入り一覧を取得
-    document.addEventListener("DOMContentLoaded", () => {
-      const favCommands = localStorage.getItem("favCommand");
-      const favCommand = document.createElement("div");
-      favCommand.textContent = favCommands;
+    let insertFavCommandlist = [];
 
-      const parent = document.getElementById("favArea");
-      parent.appendChild(favCommand);
+    // ページ読み込み時にお気に入りコマンド一覧を表示
+    document.addEventListener("DOMContentLoaded", () => {
+      disPlayFavCommands();
+    });
+
+    // お気に入り一覧を取得
+    function disPlayFavCommands() {
+      let disPlayFavCommandlist = [];
+      disPlayFavCommandlist = JSON.parse(localStorage.getItem("favCommands"));
+      
+
+      Array.from(disPlayFavCommandlist).forEach(favCommand => {
+        const favCommandElement = document.createElement("div");
+        favCommandElement.textContent = favCommand;
+        const parent = document.getElementById("favArea");
+        parent.appendChild(favCommandElement);
+      })
+
+    };
+
+    // コマンドをお気に入りする
+    function saveFavCommand() {
+      localStorage.setItem("favCommands", JSON.stringify(insertFavCommandlist));
+    };
+
+
+    // コマンドをお気に入り登録するボタン
+    const favButton = document.getElementById("favButton");
+    favButton.addEventListener("click", () => {
+      const createdCommand = document.getElementById("commandArea").value;
+      insertFavCommandlist.push(createdCommand);
+
+      console.log(insertFavCommandlist);
+
+      //const favCommand = document.createElement("div");
+      //favCommand.textContent = createdCommand;
+      // const parent = document.getElementById("favArea");
+      // parent.appendChild(favCommand);
+
+      saveFavCommand();
+
+      disPlayFavCommands();
+
+      alert("コマンドをお気に入り登録しました！");
     });
 
     // 生成条件をリセットするボタン
@@ -287,23 +325,6 @@
       document.execCommand("copy");
       alert("コマンドをコピーしました！");
     });
-
-    // コマンドをお気に入り登録するボタン
-    const favButton = document.getElementById("favButton");
-    favButton.addEventListener("click", () => {
-      const createdCommand = document.getElementById("commandArea").value;
-
-      const favCommand = document.createElement("div");
-      favCommand.textContent = createdCommand;
-
-      const parent = document.getElementById("favArea");
-      parent.appendChild(favCommand);
-
-      localStorage.setItem("favCommand", createdCommand);
-
-      alert("コマンドをお気に入り登録しました！");
-    });
-
   </script>
 </body>
 
