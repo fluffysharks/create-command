@@ -213,7 +213,7 @@
             </div>
           </div>
           <div>
-            <textarea rows="3" class="form-control commandArea" id="commandArea" th:text="${command}"
+            <textarea rows="3" class="form-control commandArea mb-5" id="commandArea" th:text="${command}"
               readonly></textarea>
           </div>
         </div>
@@ -221,6 +221,12 @@
         <div class="form-group">
           <div class="d-flex mb-2">
             <label class="h5">お気に入り</label>
+            <div class="ms-auto d-flex gap-2">
+              <button type="button" class="btn btn-outline-danger btn-sm" id="delButton">
+                <i class="fa-solid fa-trash"></i>
+                <span>すべて削除</span>
+              </button>
+            </div>
           </div>
           <div id="favArea">
           </div>
@@ -256,52 +262,44 @@
 
 
   <script>
-    let insertFavCommandlist = [];
+    const favCommandList = JSON.parse(localStorage.getItem("favCommands")) || [];
+    const favArea = document.getElementById("favArea");
+    const favButton = document.getElementById("favButton");
+
+    // お気に入り一覧を表示
+    function disPlayFavCommands() {
+      favArea.innerHTML = "";
+      Array.from(favCommandList).forEach(favCommand => {
+        const favCommandElement = document.createElement("div");
+        favCommandElement.textContent = favCommand;
+        favArea.appendChild(favCommandElement);
+      })
+    };
 
     // ページ読み込み時にお気に入りコマンド一覧を表示
     document.addEventListener("DOMContentLoaded", () => {
       disPlayFavCommands();
     });
 
-    // お気に入り一覧を取得
-    function disPlayFavCommands() {
-      let disPlayFavCommandlist = [];
-      disPlayFavCommandlist = JSON.parse(localStorage.getItem("favCommands"));
-      
-
-      Array.from(disPlayFavCommandlist).forEach(favCommand => {
-        const favCommandElement = document.createElement("div");
-        favCommandElement.textContent = favCommand;
-        const parent = document.getElementById("favArea");
-        parent.appendChild(favCommandElement);
-      })
-
-    };
-
-    // コマンドをお気に入りする
-    function saveFavCommand() {
-      localStorage.setItem("favCommands", JSON.stringify(insertFavCommandlist));
-    };
-
-
     // コマンドをお気に入り登録するボタン
-    const favButton = document.getElementById("favButton");
     favButton.addEventListener("click", () => {
       const createdCommand = document.getElementById("commandArea").value;
-      insertFavCommandlist.push(createdCommand);
+      favCommandList.push(createdCommand);
 
-      console.log(insertFavCommandlist);
+      // console.log(favCommandList);
 
-      //const favCommand = document.createElement("div");
-      //favCommand.textContent = createdCommand;
-      // const parent = document.getElementById("favArea");
-      // parent.appendChild(favCommand);
-
-      saveFavCommand();
+      localStorage.setItem("favCommands", JSON.stringify(favCommandList));
 
       disPlayFavCommands();
 
       alert("コマンドをお気に入り登録しました！");
+    });
+
+    // （開発用）お気に入りをすべて削除
+    const del = document.getElementById("delButton");
+    del.addEventListener("click", () => {
+      localStorage.clear();
+      disPlayFavCommands();
     });
 
     // 生成条件をリセットするボタン
