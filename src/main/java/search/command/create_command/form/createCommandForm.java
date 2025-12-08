@@ -35,7 +35,7 @@ public class CreateCommandForm {
     /** いいね数（Max） */
     private String maxFaves;
 
-    /** 特定ユーザー宛ての返信 */
+    /** このユーザー宛ての返信 */
     @Size(max = 15, message = "15文字以内で入力してください")
     @Pattern(regexp = "^[a-zA-Z0-9_]*$", message = "半角英数字とアンダーバーのみ入力できます")
     private String reply;

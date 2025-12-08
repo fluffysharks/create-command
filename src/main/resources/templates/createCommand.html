@@ -14,11 +14,12 @@
   <style>
     .container {
       width: 80%;
+
     }
 
     .form-group {
       margin-top: 20px;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
     }
 
     .form-check {
@@ -31,7 +32,10 @@
     }
 
     .validation {
-      display: none;
+      font-size: 80%;
+      color: gray;
+      margin-bottom: 8px;
+      line-height: 1;
     }
 
     .fa-exclamation {
@@ -43,10 +47,7 @@
         width: 90%;
       }
 
-      .validation {
-        display: block;
-        font-size: 80%;
-      }
+
 
       .longPlaceholder::placeholder {
         color: transparent
@@ -62,47 +63,49 @@
   <form th:action="@{/createTwitterCommand}" th:object="${form}" method="post">
     <div class="container">
       <div class="form-group row">
-        <label class="userName col-sm-3 col-form-label text-wrap">ユーザー名<br><span
-            class="validation">※半角英数字とアンダーバーのみ&nbsp;15文字以内</span></label>
-        <div class="col-sm-9">
-          <div class="input-group">
-            <span class="input-group-text" id="basic-addon1">@</span>
-            <input type="text" maxlength="50" placeholder="半角英数字と「_」のみ 15文字以内" class="form-control longPlaceholder"
-              th:classappend="${#fields.hasErrors('userName')}? 'is-invalid'" aria-describedby="basic-addon1"
-              th:field="*{userName}" data-reset>
-            <div th:if="${#fields.hasErrors('userName')}" class="invalid-feedback">
+        <label class="userName col-form-label text-wrap">ユーザー名</label>
+        <p class="validation">※半角英数字とアンダーバーのみ&nbsp;15文字以内</p>
+        <div class="input-group">
+          <span class="input-group-text" id="basic-addon1">@</span>
+          <input type="text" placeholder="例）example_user" class="form-control longPlaceholder"
+            th:classappend="${#fields.hasErrors('userName')}? 'is-invalid'" aria-describedby="basic-addon1"
+            th:field="*{userName}" data-reset>
+          <div th:if="${#fields.hasErrors('userName')}" class="invalid-feedback">
+            <i class="fa-solid fa-exclamation"></i>
+            <span th:errors="*{userName}"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="date col-form-label">期間</label>
+
+        <div class="row">
+          <div class="col-5">
+            <input type="date" class="dateSince form-control"
+              th:classappend="${!#strings.isEmpty(compareDate)}? 'is-invalid'" th:field="*{dateSince}" data-reset>
+            <div th:if="${!#strings.isEmpty(compareDate)}" class="invalid-feedback">
               <i class="fa-solid fa-exclamation"></i>
-              <span th:errors="*{userName}"></span>
+              <span th:text="${compareDate}"></span>
             </div>
           </div>
+
+          <label class="date col-2 col-form-label text-center">～</label>
+          <div class="col-5">
+            <input type="date" class="dateUntil form-control" th:field="*{dateUntil}" data-reset>
+          </div>
         </div>
+
       </div>
 
       <div class="form-group row">
-        <label class="date col-sm-3 col-form-label">期間</label>
-        <div class="col-sm-9">
-          <div class="row">
-            <div class="col-5">
-              <input type="date" class="dateSince form-control"
-                th:classappend="${!#strings.isEmpty(compareDate)}? 'is-invalid'" th:field="*{dateSince}" data-reset>
-              <div th:if="${!#strings.isEmpty(compareDate)}" class="invalid-feedback">
-                <i class="fa-solid fa-exclamation"></i>
-                <span th:text="${compareDate}"></span>
-              </div>
-            </div>
-
-            <label class="date col-2 col-form-label text-center">～</label>
-            <div class="col-5">
-              <input type="date" class="dateUntil form-control" th:field="*{dateUntil}" data-reset>
-            </div>
-          </div>
+        <label class="keyword  col-form-label text-wrap">キーワード（完全一致）</label>
+        <div class="d-flex">
+          <p class="validation">※20文字以内</p>
+          <span class="ms-auto counter"></span>
         </div>
-      </div>
-
-      <div class="form-group row">
-        <label class="keyword col-sm-3 col-form-label text-wrap">キーワード（完全一致）</label>
-        <div class="col-sm-9">
-          <input type="text" maxlength="20" placeholder="20文字以内" class="form-control"
+        <div>
+          <input type="text" placeholder="例）美味しいランチ" class="form-control"
             th:classappend="${#fields.hasErrors('keyword')}? 'is-invalid'" th:field="*{keyword}" data-reset>
           <div th:if="${#fields.hasErrors('keyword')}" class="invalid-feedback">
             <i class="fa-solid fa-exclamation"></i>
@@ -136,9 +139,13 @@
             <div id="collapse" class="accordion-collapse collapse" data-bs-parent="#moreOption">
               <div class="accordion-body">
                 <div class="form-group row">
-                  <label class="keyword col-sm-3 col-form-label text-wrap">除外するキーワード（完全一致）</label>
-                  <div class="col-sm-9">
-                    <input type="text" maxlength="20" placeholder="20文字以内" class="form-control"
+                  <label class="keyword col-form-label text-wrap">除外するキーワード（完全一致）</label>
+                  <div class="d-flex">
+                    <p class="validation">※20文字以内</p>
+                    <span class="ms-auto counter">1/20</span>
+                  </div>
+                  <div>
+                    <input type="text" placeholder="例）5000円のランチ" class="form-control"
                       th:classappend="${#fields.hasErrors('removeKeyword')}? 'is-invalid'" th:field="*{removeKeyword}"
                       data-reset>
                     <div th:if="${#fields.hasErrors('removeKeyword')}" class="invalid-feedback">
@@ -149,43 +156,42 @@
                 </div>
 
                 <div class="form-group row">
-                  <label class="faves col-sm-3 col-form-label">いいね数</label>
-                  <div class="col-sm-9">
-                    <div class="row">
-                      <div class="col-5">
-                        <input type="number" min="0" class="minFaves form-control d-inline"
-                          th:classappend="${!#strings.isEmpty(compareFaves)}? 'is-invalid'" th:field="*{minFaves}"
-                          data-reset>
-                        <div th:if="${!#strings.isEmpty(compareFaves)}" class="invalid-feedback">
-                          <i class="fa-solid fa-exclamation"></i>
-                          <span th:text="${compareFaves}"></span>
-                        </div>
-                      </div>
-                      <label class="faves col-2 col-form-label text-center">～</label>
-                      <div class="col-5">
-                        <input type="number" min="0" class="maxFaves form-control d-inline" th:field="*{maxFaves}"
-                          data-reset>
+                  <label class="faves col-form-label">いいね数</label>
+
+                  <div class="row">
+                    <div class="col-5">
+                      <input type="number" min="0" class="minFaves form-control d-inline"
+                        th:classappend="${!#strings.isEmpty(compareFaves)}? 'is-invalid'" th:field="*{minFaves}"
+                        data-reset>
+                      <div th:if="${!#strings.isEmpty(compareFaves)}" class="invalid-feedback">
+                        <i class="fa-solid fa-exclamation"></i>
+                        <span th:text="${compareFaves}"></span>
                       </div>
                     </div>
+                    <label class="faves col-2 col-form-label text-center">～</label>
+                    <div class="col-5">
+                      <input type="number" min="0" class="maxFaves form-control d-inline" th:field="*{maxFaves}"
+                        data-reset>
+                    </div>
+
                   </div>
                 </div>
 
                 <div class="form-group row">
-                  <label class="userName col-sm-3 col-form-label text-wrap">特定ユーザー宛ての返信<br><span
-                      class="validation">※半角英数字とアンダーバーのみ&nbsp;15文字以内</span></label>
-                  <div class="col-sm-9">
-                    <div class="input-group">
-                      <span class="input-group-text" id="basic-addon2">@</span>
-                      <input type="text" maxlength="50" placeholder="半角英数字と「_」のみ 15文字以内"
-                        class="form-control longPlaceholder"
-                        th:classappend="${#fields.hasErrors('reply')}? 'is-invalid'" aria-describedby="basic-addon2"
-                        th:field="*{reply}" data-reset>
-                      <div th:if="${#fields.hasErrors('reply')}" class="invalid-feedback">
-                        <i class="fa-solid fa-exclamation"></i>
-                        <span th:errors="*{reply}"></span>
-                      </div>
+                  <label class="userName col-form-label text-wrap">このユーザー宛ての返信</label>
+                  <p class="validation">※半角英数字とアンダーバーのみ&nbsp;15文字以内</p>
+
+                  <div class="input-group">
+                    <span class="input-group-text" id="basic-addon2">@</span>
+                    <input type="text" placeholder="例）to_this_user" class="form-control longPlaceholder"
+                      th:classappend="${#fields.hasErrors('reply')}? 'is-invalid'" aria-describedby="basic-addon2"
+                      th:field="*{reply}" data-reset>
+                    <div th:if="${#fields.hasErrors('reply')}" class="invalid-feedback">
+                      <i class="fa-solid fa-exclamation"></i>
+                      <span th:errors="*{reply}"></span>
                     </div>
                   </div>
+
                 </div>
               </div>
             </div>
@@ -194,19 +200,19 @@
 
 
         <div class="form-group row mb-5">
-          <input type="button" class="btn btn-danger col-5 mx-auto" id="resetButton" value="条件をリセット">
-          <input type="submit" class="btn btn-primary col-5 mx-auto" name="generateCommand" value="コマンドを生成">
+          <input type="button" class="btn btn-outline-primary col-4 mx-auto" id="resetButton" value="条件をクリア">
+          <input type="submit" class="btn btn-primary col-7 mx-auto" name="generateCommand" value="コマンドを生成">
         </div>
 
         <div class="form-group">
           <div class="d-flex mb-2">
             <label class="h5">結果</label>
             <div class="ms-auto d-flex gap-2">
-              <button type="button" class="btn btn-warning btn-sm" id="favButton">
+              <button type="button" class="btn btn-outline-secondary btn-sm" id="favButton">
                 <i class="fa-solid fa-star"></i>
                 <span>お気に入り登録</span>
               </button>
-              <button type="button" class="btn btn-light btn-sm" id="copyButton">
+              <button type="button" class="btn btn-outline-secondary btn-sm" id="copyButton">
                 <i class="fa-solid fa-copy"></i>
                 <span>コピー</span>
               </button>
@@ -265,6 +271,7 @@
     const favCommandList = JSON.parse(localStorage.getItem("favCommands")) || [];
     const favArea = document.getElementById("favArea");
     const favButton = document.getElementById("favButton");
+    const counter = document.getElementsByClassName("counter");
 
     // お気に入り一覧を表示
     function disPlayFavCommands() {
