@@ -137,7 +137,7 @@ public class CreateCommandController {
         }
 
         if (!StringUtils.isEmpty(form.getReply())) {
-            // 「特定ユーザー宛ての返信」が入力されていれば、to検索を追加
+            // 「このユーザー宛ての返信」が入力されていれば、to検索を追加
             command.append("to:" + form.getReply() + " ");
         }
 
