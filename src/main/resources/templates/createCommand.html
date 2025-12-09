@@ -102,10 +102,10 @@
         <label class="keyword  col-form-label text-wrap">キーワード（完全一致）</label>
         <div class="d-flex">
           <p class="validation">※20文字以内</p>
-          <span class="ms-auto counter"></span>
+          <span class="ms-auto" id="counter1"></span>
         </div>
         <div>
-          <input type="text" placeholder="例）美味しいランチ" class="form-control"
+          <input type="text" placeholder="例）美味しいランチ" class="form-control" id="keyword1"
             th:classappend="${#fields.hasErrors('keyword')}? 'is-invalid'" th:field="*{keyword}" data-reset>
           <div th:if="${#fields.hasErrors('keyword')}" class="invalid-feedback">
             <i class="fa-solid fa-exclamation"></i>
@@ -142,10 +142,10 @@
                   <label class="keyword col-form-label text-wrap">除外するキーワード（完全一致）</label>
                   <div class="d-flex">
                     <p class="validation">※20文字以内</p>
-                    <span class="ms-auto counter">1/20</span>
+                    <span class="ms-auto" id="counter2"></span>
                   </div>
                   <div>
-                    <input type="text" placeholder="例）5000円のランチ" class="form-control"
+                    <input type="text" placeholder="例）5000円のランチ" class="form-control" id="keyword2"
                       th:classappend="${#fields.hasErrors('removeKeyword')}? 'is-invalid'" th:field="*{removeKeyword}"
                       data-reset>
                     <div th:if="${#fields.hasErrors('removeKeyword')}" class="invalid-feedback">
@@ -271,7 +271,10 @@
     const favCommandList = JSON.parse(localStorage.getItem("favCommands")) || [];
     const favArea = document.getElementById("favArea");
     const favButton = document.getElementById("favButton");
-    const counter = document.getElementsByClassName("counter");
+    const counter1 = document.getElementById("counter1");
+    const counter2 = document.getElementById("counter2");
+    const keyword1 = document.getElementById("keyword1");
+    const keyword2 = document.getElementById("keyword2");
 
     // お気に入り一覧を表示
     function disPlayFavCommands() {
@@ -280,6 +283,16 @@
         const favCommandElement = document.createElement("div");
         favCommandElement.textContent = favCommand;
         favArea.appendChild(favCommandElement);
+
+        const copyButton = document.createElement("button");
+        copyButton.className = "btn btn-outline-secondary btn-sm";
+        const copyIcon = document.createElement("i");
+        copyIcon.className = "fa-solid fa-copy";
+        copyButton.appendChild(copyIcon);
+
+        favCommandElement.appendChild(copyButton);
+
+
       })
     };
 
@@ -291,15 +304,20 @@
     // コマンドをお気に入り登録するボタン
     favButton.addEventListener("click", () => {
       const createdCommand = document.getElementById("commandArea").value;
-      favCommandList.push(createdCommand);
+      if (createdCommand) {
+        const createdCommand = document.getElementById("commandArea").value;
+        favCommandList.push(createdCommand);
 
-      // console.log(favCommandList);
+        // console.log(favCommandList);
 
-      localStorage.setItem("favCommands", JSON.stringify(favCommandList));
+        localStorage.setItem("favCommands", JSON.stringify(favCommandList));
 
-      disPlayFavCommands();
+        disPlayFavCommands();
 
-      alert("コマンドをお気に入り登録しました！");
+        alert("コマンドをお気に入り登録しました！");
+      } else {
+        alert("1文字以上のコマンドを生成してください");
+      }
     });
 
     // （開発用）お気に入りをすべて削除
@@ -308,6 +326,16 @@
       localStorage.clear();
       disPlayFavCommands();
     });
+
+    //　文字数カウンター
+    keyword1.addEventListener("input", () => {
+      counter1.innerHTML = keyword1.value.length + "/20";
+    });
+
+    keyword2.addEventListener("input", () => {
+      counter2.innerHTML = keyword2.value.length + "/20";
+    });
+
 
     // 生成条件をリセットするボタン
     const resetButton = document.getElementById("resetButton");
