@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <title>Twitter(X)検索コマンド生成</title>
 </head>
@@ -13,12 +13,12 @@
 <body>
   <style>
     .container {
-      width: 80%;
+      width: 70%;
 
     }
 
     .form-group {
-      margin-top: 20px;
+      margin-top: 10px;
       margin-bottom: 25px;
     }
 
@@ -81,7 +81,7 @@
         <label class="date col-form-label">期間</label>
 
         <div class="row">
-          <div class="col-5">
+          <div class="responsiveForm">
             <input type="date" class="dateSince form-control"
               th:classappend="${!#strings.isEmpty(compareDate)}? 'is-invalid'" th:field="*{dateSince}" data-reset>
             <div th:if="${!#strings.isEmpty(compareDate)}" class="invalid-feedback">
@@ -90,8 +90,8 @@
             </div>
           </div>
 
-          <label class="date col-2 col-form-label text-center">～</label>
-          <div class="col-5">
+          <label class="date col-1 col-form-label text-center">～</label>
+          <div class="responsiveForm">
             <input type="date" class="dateUntil form-control" th:field="*{dateUntil}" data-reset>
           </div>
         </div>
@@ -114,7 +114,7 @@
         </div>
       </div>
 
-      <div class="form-check form-switch">
+      <div class="form-check form-switch mb-3">
         <input type="checkbox" role="switch" class="followee form-check-input" value="followee" th:id="followee"
           th:field="*{followee}" data-reset>
         <label class="form-check-label" for="followee">フォローしている人の投稿のみ表示</label>
@@ -159,7 +159,7 @@
                   <label class="faves col-form-label">いいね数</label>
 
                   <div class="row">
-                    <div class="col-5">
+                    <div class="responsiveForm">
                       <input type="number" min="0" class="minFaves form-control d-inline"
                         th:classappend="${!#strings.isEmpty(compareFaves)}? 'is-invalid'" th:field="*{minFaves}"
                         data-reset>
@@ -168,8 +168,8 @@
                         <span th:text="${compareFaves}"></span>
                       </div>
                     </div>
-                    <label class="faves col-2 col-form-label text-center">～</label>
-                    <div class="col-5">
+                    <label class="faves col-1 col-form-label text-center">～</label>
+                    <div class="responsiveForm">
                       <input type="number" min="0" class="maxFaves form-control d-inline" th:field="*{maxFaves}"
                         data-reset>
                     </div>
@@ -358,6 +358,25 @@
       document.execCommand("copy");
       alert("コマンドをコピーしました！");
     });
+
+    //　レスポンシブ
+    const mediaSize = window.matchMedia("max-width:576px");
+    const responsiveForms = document.querySelectorAll(".responsiveForm");
+
+    function responsiveDesign() {
+      if (mediaSize.matches) {
+        responsiveForms.forEach(form => {
+          form.classList.add("col-3");
+        });
+
+      } else {
+        responsiveForms.forEach(form => {
+          form.classList.add("col-5");
+        });
+      }
+    }
+    mediaSize.addEventListener("change", responsiveDesign); // 
+    responsiveDesign();
   </script>
 </body>
 
