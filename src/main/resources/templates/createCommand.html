@@ -14,7 +14,6 @@
   <style>
     .container {
       width: 70%;
-
     }
 
     .form-group {
@@ -63,7 +62,7 @@
   <form th:action="@{/createTwitterCommand}" th:object="${form}" method="post">
     <div class="container">
       <div class="form-group">
-        <ul class="nav nav-underline mb-3" id="nav-tab" role="tablist">
+        <ul class="nav nav-underline justify-content-center mb-3" id="nav-tab" role="tablist">
           <li class="nav-item" role="presentation">
             <button type="button" class="nav-link active" id="create-tab" data-bs-toggle="pill"
               data-bs-target="#nav-create" role="tab" aria-controls="nav-create" aria-selected="true">新規作成</button>
@@ -82,6 +81,7 @@
         <div class="tab-content" id="nav-tabContent">
           <div div class="tab-pane show active" id="nav-create" role="tabpanel" aria-labelledby="create-tab"
             tabindex="0">
+
             <div class="form-group row">
               <label class="userName col-form-label text-wrap">ユーザー名</label>
               <p class="validation">※半角英数字とアンダーバーのみ&nbsp;15文字以内</p>
@@ -99,7 +99,6 @@
 
             <div class="form-group row">
               <label class="date col-form-label">期間</label>
-
               <div class="row">
                 <div class="responsiveForm">
                   <input type="date" class="dateSince form-control"
@@ -109,13 +108,11 @@
                     <span th:text="${compareDate}"></span>
                   </div>
                 </div>
-
                 <label class="date col-1 col-form-label text-center">～</label>
                 <div class="responsiveForm">
                   <input type="date" class="dateUntil form-control" th:field="*{dateUntil}" data-reset>
                 </div>
               </div>
-
             </div>
 
             <div class="form-group row">
@@ -156,6 +153,7 @@
                       <span>&nbsp;さらに条件を追加</span>
                     </button>
                   </h5>
+
                   <div id="collapse" class="accordion-collapse collapse" data-bs-parent="#moreOption">
                     <div class="accordion-body">
                       <div class="form-group row">
@@ -177,12 +175,12 @@
 
                       <div class="form-group row">
                         <label class="faves col-form-label">いいね数</label>
-
+                        <p class="validation">※10億以下</p>
                         <div class="row">
                           <div class="responsiveForm">
                             <input type="number" min="0" class="minFaves form-control d-inline"
                               th:classappend="${!#strings.isEmpty(compareFaves)}? 'is-invalid'" th:field="*{minFaves}"
-                              data-reset>
+                              data-reset max="1000000000">
                             <div th:if="${!#strings.isEmpty(compareFaves)}" class="invalid-feedback">
                               <i class="fa-solid fa-exclamation"></i>
                               <span th:text="${compareFaves}"></span>
@@ -191,16 +189,14 @@
                           <label class="faves col-1 col-form-label text-center">～</label>
                           <div class="responsiveForm">
                             <input type="number" min="0" class="maxFaves form-control d-inline" th:field="*{maxFaves}"
-                              data-reset>
+                              data-reset max="1000000000">
                           </div>
-
                         </div>
                       </div>
 
                       <div class="form-group row">
                         <label class="userName col-form-label text-wrap">このユーザー宛ての返信</label>
                         <p class="validation">※半角英数字とアンダーバーのみ&nbsp;15文字以内</p>
-
                         <div class="input-group">
                           <span class="input-group-text" id="basic-addon2">@</span>
                           <input type="text" placeholder="例）to_this_user" class="form-control longPlaceholder"
@@ -211,13 +207,11 @@
                             <span th:errors="*{reply}"></span>
                           </div>
                         </div>
-
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-
 
               <div class="form-group row mb-5">
                 <input type="button" class="btn btn-outline-primary col-4 mx-auto" id="resetButton" value="条件をクリア">
@@ -249,7 +243,6 @@
           <div class="tab-pane" id="nav-favorite" role="tabpanel" aria-labelledby="favorite-tab" tabindex="0">
             <div class="form-group">
               <div class="d-flex mb-2">
-    
                 <div class="ms-auto d-flex gap-2">
                   <button type="button" class="btn btn-outline-danger btn-sm" id="delButton">
                     <i class="fa-solid fa-trash"></i>
@@ -257,42 +250,27 @@
                   </button>
                 </div>
               </div>
-              <div id="favArea">
-              </div>
+              <ul class="list-group list-group-flush" id="favArea"></ul>
             </div>
           </div>
 
           <div class="tab-pane" id="nav-help" role="tabpanel" aria-labelledby="help-tab" tabindex="0">
             <div class="form-group">
-            
-              <ul class="nav nav-underline mb-3" id="nav-tab" role="tablist">
-                <li class="nav-item" role="presentation">
-                  <button type="button" class="nav-link active" id="nav-description-tab" data-bs-toggle="pill"
-                    data-bs-target="#nav-description" role="tab" aria-controls="nav-description"
-                    aria-selected="true">説明</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button type="button" class="nav-link" id="nav-qa-tab" data-bs-toggle="pill" data-bs-target="#nav-qa"
-                    role="tab" aria-controls="nav-qa" aria-selected="false">Q＆A</button>
-                </li>
-              </ul>
+              <!-- <div class="h4">説明</div>
+              <div>twitterのコマンドを生成するサイトです。</div>
+              <div>このサイトで生成したコマンドをtwitterの検索欄にペーストして検索するだけで、条件に合致する投稿が表示されます。</div>
 
-              <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane show active" id="nav-description" role="tabpanel"
-                  aria-labelledby="nav-description-tab" tabindex="0">
-                  <div>twitterのコマンドを生成するサイトです。</div>
-                  <div>このサイトで生成したコマンドをtwitterの検索欄にペーストして検索するだけで、条件に合致する投稿が表示されます。</div>
-                </div>
-                <div class="tab-pane" id="nav-qa" role="tabpanel" aria-labelledby="nav-qa-tab" tabindex="0">
-                  <div class="h6">Q.エラーが出てしまい、コマンドが生成されない</div>
-                  <div>特にアンダーバー（_）が全角になっていないか</div>
+              <div class="h4">QA</div>
+              <div class="h6">Q.エラーが出てしまい、コマンドが生成されない</div>
+              <div>特にアンダーバー（_）が全角になっていないか</div> -->
+
+              <div>要望・バグ報告などは<a href="https://forms.gle/WLJueGioScScPbuz7" target="_blank">こちら</a>から<div>
+                  <div class="h4">今後の実装予定</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
   </form>
 
 
@@ -306,10 +284,11 @@
     const keyword2 = document.getElementById("keyword2");
 
     // お気に入り一覧を表示
-    function disPlayFavCommands() {
+    function displayFavCommands() {
       favArea.innerHTML = "";
       Array.from(favCommandList).forEach(favCommand => {
-        const favCommandElement = document.createElement("div");
+        const favCommandElement = document.createElement("li");
+        favCommandElement.className = "list-group-item border-dark-subtle d-flex justify-content-between align-items-center";
         favCommandElement.textContent = favCommand;
         favArea.appendChild(favCommandElement);
 
@@ -321,13 +300,21 @@
 
         favCommandElement.appendChild(copyButton);
 
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "btn btn-outline-secondary btn-sm";
+        const deleteIcon = document.createElement("i");
+        deleteIcon.className = "fa-solid fa-trash";
+        deleteButton.appendChild(deleteIcon);
+
+        favCommandElement.appendChild(deleteButton);
+
 
       })
     };
 
     // ページ読み込み時にお気に入りコマンド一覧を表示
     document.addEventListener("DOMContentLoaded", () => {
-      disPlayFavCommands();
+      displayFavCommands();
     });
 
     // コマンドをお気に入り登録するボタン
@@ -337,11 +324,11 @@
         const createdCommand = document.getElementById("commandArea").value;
         favCommandList.push(createdCommand);
 
-        // console.log(favCommandList);
+
 
         localStorage.setItem("favCommands", JSON.stringify(favCommandList));
 
-        disPlayFavCommands();
+        displayFavCommands();
 
         alert("コマンドをお気に入り登録しました！");
       } else {
@@ -349,11 +336,11 @@
       }
     });
 
-    // （開発用）お気に入りをすべて削除
+    // お気に入りをすべて削除
     const del = document.getElementById("delButton");
     del.addEventListener("click", () => {
       localStorage.clear();
-      disPlayFavCommands();
+      displayFavCommands();
     });
 
     //　文字数カウンター
