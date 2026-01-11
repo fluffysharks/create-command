@@ -37,6 +37,11 @@
       line-height: 1;
     }
 
+    .subhead {
+      padding: 0.2rem 0.5rem;
+      border-left: 6px solid #0d6efd;
+    }
+
     .fa-exclamation {
       color: #DC3545;
     }
@@ -45,8 +50,6 @@
       .container {
         width: 90%;
       }
-
-
 
       .longPlaceholder::placeholder {
         color: transparent
@@ -220,8 +223,8 @@
 
               <div class="form-group">
                 <div class="d-flex mb-2">
-                  <label class="h5">結果</label>
-                  <div class="ms-auto d-flex gap-2">
+                  <label class="h5 subhead">結果</label>
+                  <div class="ms-auto gap-2">
                     <button type="button" class="btn btn-outline-secondary btn-sm" id="favButton">
                       <i class="fa-solid fa-star"></i>
                       <span>お気に入り登録</span>
@@ -264,13 +267,18 @@
               <div class="h6">Q.エラーが出てしまい、コマンドが生成されない</div>
               <div>特にアンダーバー（_）が全角になっていないか</div> -->
 
-              <div>要望・バグ報告などは<a href="https://forms.gle/WLJueGioScScPbuz7" target="_blank">こちら</a>から<div>
-                  <div class="h4">今後の実装予定</div>
-                </div>
-              </div>
+              <div class="mb-4">要望・バグ報告などは<a href="https://forms.gle/WLJueGioScScPbuz7" target="_blank">こちら</a>から</div>
+              <div class="h5 subhead">リリースノート</div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item border-dark-subtle d-flex">2026-1-11&nbsp;バグを修正しました。</li>
+                <li class="list-group-item border-dark-subtle d-flex">2026-1-11&nbsp;バグを修正しました。</li>
+              </ul>
+              <div class="h5 subhead">今後の実装予定</div>
             </div>
           </div>
         </div>
+      </div>
+    </div>
   </form>
 
 
@@ -288,25 +296,36 @@
       favArea.innerHTML = "";
       Array.from(favCommandList).forEach(favCommand => {
         const favCommandElement = document.createElement("li");
-        favCommandElement.className = "list-group-item border-dark-subtle d-flex justify-content-between align-items-center";
-        favCommandElement.textContent = favCommand;
+        favCommandElement.className = "list-group-item border-dark-subtle d-flex";
         favArea.appendChild(favCommandElement);
 
-        const copyButton = document.createElement("button");
-        copyButton.className = "btn btn-outline-secondary btn-sm";
+        const favDelete = document.createElement("button");
+        favDelete.className = "btn text-muted favDelete me-1";
+        const deleteIcon = document.createElement("i");
+        deleteIcon.className = "fa-solid fa-xmark";
+        favDelete.appendChild(deleteIcon);
+        favCommandElement.appendChild(favDelete);
+
+        const favText = document.createElement("p");
+        favText.textContent = favCommand;
+        favCommandElement.appendChild(favText);
+
+        const memo = document.createElement("button");
+        memo.className = "btn btn-outline-secondary btn-sm rounded-circle p-0 ms-auto me-2 h-50";
+        const memoIcon = document.createElement("i");
+        memoIcon.className = "fa-solid fa-question";
+        memo.appendChild(memoIcon);
+
+        favCommandElement.appendChild(memo);
+
+        const favCopy = document.createElement("button");
+        favCopy.className = "btn btn-outline-secondary btn-sm favCopy";
         const copyIcon = document.createElement("i");
         copyIcon.className = "fa-solid fa-copy";
-        copyButton.appendChild(copyIcon);
+        favCopy.appendChild(copyIcon);
+        favCommandElement.appendChild(favCopy);
 
-        favCommandElement.appendChild(copyButton);
 
-        const deleteButton = document.createElement("button");
-        deleteButton.className = "btn btn-outline-secondary btn-sm";
-        const deleteIcon = document.createElement("i");
-        deleteIcon.className = "fa-solid fa-trash";
-        deleteButton.appendChild(deleteIcon);
-
-        favCommandElement.appendChild(deleteButton);
 
 
       })
@@ -323,8 +342,6 @@
       if (createdCommand) {
         const createdCommand = document.getElementById("commandArea").value;
         favCommandList.push(createdCommand);
-
-
 
         localStorage.setItem("favCommands", JSON.stringify(favCommandList));
 
@@ -391,7 +408,7 @@
         });
       }
     }
-    mediaSize.addEventListener("change", responsiveDesign); // 
+    mediaSize.addEventListener("change", responsiveDesign);
     responsiveDesign();
   </script>
 </body>
