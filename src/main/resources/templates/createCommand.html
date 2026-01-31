@@ -58,8 +58,8 @@
     }
 
     .noteButton {
-      width: 1.3rem;
-      height: 1.3rem;
+      width: 1.4rem;
+      height: 1.4rem;
     }
 
     @media (max-width:576px) {
@@ -257,14 +257,14 @@
 
           <div class="tab-pane" id="nav-favorite" role="tabpanel" aria-labelledby="favorite-tab" tabindex="0">
             <div class="form-group">
-              <!-- <div class="d-flex mb-2">
+              <div class="d-flex mb-2">
                 <div class="ms-auto d-flex gap-2">
                   <button type="button" class="btn btn-outline-danger btn-sm" id="delButton">
                     <i class="fa-solid fa-trash"></i>
                     <span>すべて削除</span>
                   </button>
                 </div>
-              </div> -->
+              </div>
               <ul class="list-group list-group-flush" id="favArea"></ul>
             </div>
           </div>
@@ -296,7 +296,12 @@
 
   <script>
     // TODO
-    const favCommandList = JSON.parse(localStorage.getItem("favCommands")) || [];
+    const test = {
+      command: "×ボタンを押すとコマンドを削除できます。？ボタンを押すとメモが見れます。",
+      memo: "備考"
+    };
+    localStorage.getItem("favCommands") ? true : localStorage.setItem("favCommands", JSON.stringify(test));
+    const favCommandList = JSON.parse(localStorage.getItem("favCommands"))
     const favArea = document.getElementById("favArea");
     const favButton = document.getElementById("favButton");
     const counter1 = document.getElementById("counter1");
@@ -306,8 +311,12 @@
 
     // お気に入り一覧を表示
     function displayFavCommands() {
+
       favArea.innerHTML = "";
-      Array.from(favCommandList).forEach(favCommand => {
+      // Array.from(favCommandList.commandList).forEach(favCommand => {
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        const value = JSON.parse(localStorage.getItem(key));
 
         //お気に入りを一列作る
         const favCommandElement = document.createElement("li");
@@ -324,7 +333,7 @@
 
         //コマンド本文
         const favText = document.createElement("span");
-        favText.textContent = favCommand;
+        favText.textContent = value.command;
         favCommandElement.appendChild(favText);
 
         //備考ボタン
@@ -342,7 +351,7 @@
         copyIcon.className = "fa-solid fa-copy";
         favCopy.appendChild(copyIcon);
         favCommandElement.appendChild(favCopy);
-      })
+      }
     };
 
     // ページ読み込み時にお気に入りコマンド一覧を表示
@@ -353,20 +362,16 @@
     // コマンドをお気に入り登録するボタン
     favButton.addEventListener("click", () => {
       const createdCommand = document.getElementById("commandArea").value;
-      const favMemo = doument.getElementById("favMemo").value
+      // const favMemo = document.getElementById("favMemo").value
+      const randomKey = Math.floor(Math.random() * 100000).toString();
       if (createdCommand) {
-        // favCommandList.push(createdCommand);
-        // localStorage.setItem("favCommands", JSON.stringify(favCommandList));
-        // displayFavCommands();
-
-        // キー連番
-
         const favObject = {
-          command: createdCommand,
-          memo: favMemo
+          command: createdCommand
+          // memo: favMemo
         };
 
-        localStorage.setItem("key", JSON.stringify(favObject));
+        localStorage.setItem(randomKey, JSON.stringify(favObject));
+        displayFavCommands();
 
         alert("コマンドをお気に入り登録しました！");
       } else {
@@ -375,11 +380,11 @@
     });
 
     // // お気に入りをすべて削除
-    // const del = document.getElementById("delButton");
-    // del.addEventListener("click", () => {
-    //   localStorage.clear();
-    //   displayFavCommands();
-    // });
+    const del = document.getElementById("delButton");
+    del.addEventListener("click", () => {
+      localStorage.clear();
+      displayFavCommands();
+    });
 
     //　文字数カウンター
     keyword1.addEventListener("input", () => {
